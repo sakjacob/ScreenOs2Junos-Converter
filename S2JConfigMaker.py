@@ -109,19 +109,19 @@ for line in file:
         
     elif address == True:
         # check if IPV4 or IPV6
-        if "::" in splitLine[4]: # IPV6 address
-            pass
-        else: #IPV4
+        # if "::" in splitLine[4]: # IPV6 address
+        #     pass
+        # else: #IPV4
+        address = Address()
+        address.mSecurityZone = str(splitLine[2])
+        address.mDomain = str(splitLine[3])
+        address.mAddress = splitLine[4]
+        if "::" not in splitLine[4]: # IPV4 address
             if len(splitLine) < 6:
                 print("\nIPV4 index error. Line reads:")
                 print(line)
                 continue
-            address = Address()
-            address.mSecurityZone = str(splitLine[2])
-            address.mDomain = str(splitLine[3])
-            # address.mDomain = address.mDomain[1:-1]
             address.mSubNet = str(splitLine[5])
-
             subNet = address.mSubNet.split(".") # get the cidr value from the subnet we are given
             subnet = 0
             for val in subNet:
@@ -132,8 +132,8 @@ for line in file:
                         subnet += 1
             address.mCIDR = str(subnet)
             address.mAddress = str(splitLine[4]) +"/"+ address.mCIDR
-            addresses.append(address)
-            #print(address.mDomain, address.mAddress)
+        addresses.append(address)
+        #print(address.mDomain, address.mAddress)
     elif adressSet == True:
         addressGroup = AddressGroup()
         addressGroup.mSetName = splitLine[4]
