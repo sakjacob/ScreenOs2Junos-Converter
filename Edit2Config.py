@@ -41,6 +41,13 @@ class Address:
         if self.mAddress == add2.mAddress:
             return True      
 
+class Application:
+    def __init__(self):
+       self.id = 0 
+       self.mAppName = ""
+       self.mSourceRange = ""
+       self.mDestRange = ""
+       self.mProtocol = []
 
 def Convert(edit_Filename):
     lSystem = input("Please type in the name of the logical system you would like to use: \n")
@@ -71,6 +78,11 @@ def Convert(edit_Filename):
             addressSet = True
         elif splitLine[1] == "policy":
             policy = True
+        elif splitLine[1] == "service":
+            application = True
+        else:
+            print("\nFailure to convert line: ")
+            print(line)
         # for key in splitLine:
         #     if key == "policy" and len(splitLine) > 4: # determines what type of line it is editing
         #         policy = True
@@ -161,7 +173,14 @@ def Convert(edit_Filename):
                 print("\nFailure to convert line: ")
                 print(line)
         elif application == True:
-            pass
+            application = Application()
+            for app in applications: # make sure app names are differant (ie. appname != appname_1)
+                if app.mAppName == splitLine[2]:
+                    app.mID += 1
+            application.mProtocol = splitLine[4]
+            application.mSourceRange = splitLine[6]
+            application.mDestRange = splitLine[8]
+            applications.append(application)
     file.close()
 
     new_name = "" # This will write the name of the file in srx.config style
@@ -188,6 +207,13 @@ def Convert(edit_Filename):
         for src in polLine.mSrcAdress:
             output = "set logical-systems " + lSystem + " security " + "policies from-zone " + polLine.mFromZone + " to-zone " + polLine.mToZone + " policy " + polLine.mID + " match source-address " + src + "\n"
             fp_dst.write(output)
+
+    for appLine in applications:
+        if appLine.mID != 0: # if this is the first app name it shouldnt have an id at the end (ie. AppleRDP_0 is a no)
+            output = "set applications application " + appLine.mAppName + " term " + appLine.mAppName + "_" + appLine.mID + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange
+        else:
+            output = "set applications application " + appLine.mAppName + " term " + appLine.mAppName + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange
+        fp_dst.write(output)
 
 if __name__ == "__main__":
     edit_Filename = input("Please type the filename you would like to convert with the file extension (i.e. file.txt): \n")
