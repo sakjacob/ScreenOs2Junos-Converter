@@ -2,7 +2,7 @@ import shlex
 import fileinput
 
 addresses = []
-addressSets = []
+addressSets = dict()
 policies = []
 applications = []
 
@@ -27,16 +27,11 @@ class Address:
        self.mSecurityZone = ""
        self.mSubNet = ""
        self.mCIDR = 0
+       self.mDnsName= False # "dns-name" must be inserted between name and address
 
     def __eq__(add2):
         if self.mAddress == add2.mAddress:
             return True      
-
-class AddressGroup:
-    def __init__(self):
-       self.mSetName = ""
-       self.mZone = ""
-       self.mAddresses = []
 
 
 print("Welcome to the ScreenOS to Juniper Conversion Tool \n")
@@ -59,12 +54,14 @@ for line in file:
     policy = False # these will determine what type of line we are on in the config
     application = False
     address = False
-    adressSet = False
+    addressSet = False
 
     splitLine = shlex.split(line)
 
     if splitLine[1] == "address":
         address = True
+    elif splitLine[1] == "group" and splitLine[2] == "address":
+        addressSet = True
     # for key in splitLine:
     #     if key == "policy" and len(splitLine) > 4: # determines what type of line it is editing
     #         policy = True
@@ -114,11 +111,12 @@ for line in file:
         # else: #IPV4
         address = Address()
         address.mSecurityZone = str(splitLine[2])
-        address.mDomain = str(splitLine[3])
+        address.mDomain = splitLine[3].replace(" ","-").replace("(","-").replace(")","")
         address.mAddress = splitLine[4]
         if "::" not in splitLine[4]: # IPV4 address
             if len(splitLine) < 6:
-                print("\nIPV4 index error. Line reads:")
+                address.mDnsName = True
+                print("\nSuspected dns-name line. Line reads:")
                 print(line)
                 continue
             address.mSubNet = str(splitLine[5])
@@ -132,13 +130,24 @@ for line in file:
                         subnet += 1
             address.mCIDR = str(subnet)
             address.mAddress = str(splitLine[4]) +"/"+ address.mCIDR
+        else: # IPV6 address
+            address.mDnsName= True
         addresses.append(address)
         #print(address.mDomain, address.mAddress)
-    elif adressSet == True:
-        addressGroup = AddressGroup()
-        addressGroup.mSetName = splitLine[4]
-        addressGroup.mZone = splitLine[3]
-        addressSets.append(addressGroup)
+    elif addressSet == True:
+        if len(splitLine) < 5: # don't know what to do with this line
+            print("\nFailure to convert line: ")
+            print(line)
+        elif (len(splitLine) == 5 or (len(splitLine) == 7 and splitLine[5] == "comment")): # make a new address group
+            addressSets[splitLine[4].replace(" ","-")] = []
+        elif (len(splitLine) >= 7 and splitLine[5] == "add"): # add to an address set
+            if splitLine[4].replace(" ","-") in addressSets:
+                addressSets[splitLine[4].replace(" ","-")].append(splitLine[6].replace(" ","-"))
+            else: # group was never created, create group and add to it 
+                addressSets[splitLine[4].replace(" ","-")] = [splitLine[6].replace(" ","-")]
+        else:
+            print("\nFailure to convert line: ")
+            print(line)
     elif application == True:
         pass
 file.close()
@@ -149,7 +158,16 @@ for i in range(len(fileName)):
     if fileName[i] == "-":
         dst_str = fileName[0:i] + "-srx_tool.config"
 fp_dst = open(dst_str,"w")
-print(fp_dst)
+
 for addyLine in addresses: # write addresses first
-    output = "set logical-systems " + lSystem + " security address-book global address " + addyLine.mDomain + " " + addyLine.mAddress + "\n"
+    if addyLine.mDnsName: # dns name must be written between name and address
+        output = "set logical-systems " + lSystem + " security address-book global address " + addyLine.mDomain + " dns-name " + addyLine.mAddress + "\n"
+    else:
+        output = "set logical-systems " + lSystem + " security address-book global address " + addyLine.mDomain + " " + addyLine.mAddress + "\n"
     fp_dst.write(output)
+
+# next write address book lines
+for addygroup in addressSets: # iterate address groups 
+    for addy in addressSets[addygroup]: # write each member of respective group
+        output = "set logical-systems " + lSystem + " security address-book global address-set " + addygroup + " address " + addy + "\n"
+        fp_dst.write(output)
