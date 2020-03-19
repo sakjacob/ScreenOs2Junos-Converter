@@ -8,7 +8,7 @@ import math
 
 
 def main():
-    tool_config = "C:\\Users\\sakjacob\\Desktop\\S2J\\bcc\\bcc-srx_tool.config"
+    tool_config = "C:\\Users\\sakjacob\\Desktop\\S2J\\bcc\\bcc-edit-srx_tool.config"
     fp_tool = open(tool_config,"r")
     orig_config = "C:\\Users\\sakjacob\\Desktop\\S2J\\bcc\\bcc-srx.config"
     print(orig_config)

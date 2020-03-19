@@ -69,6 +69,8 @@ def Convert(edit_Filename):
             address = True
         elif splitLine[1] == "group" and splitLine[2] == "address":
             addressSet = True
+        elif splitLine[1] == "policy":
+            policy = True
         # for key in splitLine:
         #     if key == "policy" and len(splitLine) > 4: # determines what type of line it is editing
         #         policy = True
@@ -104,7 +106,10 @@ def Convert(edit_Filename):
                     pol.mFromZone = splitLine[option + 1]
                 if splitLine[option] == "to":
                     pol.mToZone = splitLine[option + 1]
-                    pol.mSrcAdress.append(splitLine[option + 2])
+                    if splitLine[option + 2] == "Any": # "any" is case sensitive, make corrections
+                        pol.mSrcAdress.append("any")
+                    else:
+                        pol.mSrcAdress.append(splitLine[option + 2].replace(" ","-")) # replaces spaces with dashes
                     pol.mDestAdress.append(splitLine[option + 3])
                     pol.mApplication = splitLine[option + 4]
                     pol.mAction = splitLine[option + 5]
@@ -177,6 +182,11 @@ def Convert(edit_Filename):
     for addygroup in addressSets: # iterate address groups 
         for addy in addressSets[addygroup]: # write each member of respective group
             output = "set logical-systems " + lSystem + " security address-book global address-set " + addygroup + " address " + addy + "\n"
+            fp_dst.write(output)
+
+    for polLine in policies:
+        for src in polLine.mSrcAdress:
+            output = "set logical-systems " + lSystem + " security " + "policies from-zone " + polLine.mFromZone + " to-zone " + polLine.mToZone + " policy " + polLine.mID + " match source-address " + src + "\n"
             fp_dst.write(output)
 
 if __name__ == "__main__":
