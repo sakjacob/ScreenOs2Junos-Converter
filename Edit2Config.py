@@ -8,6 +8,8 @@ Last editted: 3-24-20
 
 import shlex
 import fileinput
+import os
+import sys
 
 addresses = []
 addressSets = dict()
@@ -68,6 +70,14 @@ def Convert(edit_Filename):
         raise AssertionError("Cannot open file")
 
     PolicyID = 0 
+
+    # set below used to convert predefined junos policies
+    policy_fp = open(os.path.join(sys.path[0], "predefined_junos_A-M.txt"), "r") 
+    predetermined_policies = set()
+    for policy in policy_fp:
+        predetermined_policies.add(policy.replace('\n',""))
+    print(predetermined_policies)
+
     for line in file:
         
         policy = False # these will determine what type of line we are on in the config
@@ -158,7 +168,7 @@ def Convert(edit_Filename):
             policies[PolicyID].mSrcAdress.append(splitLine[2])
         elif len(splitLine) == 3 and splitLine[1] == "dst-address": # add another destination to current policy 
             policies[PolicyID].mDestAdress.append(splitLine[2])
-        elif len(splitLine) == 3 and splitLine[1] == "service": # add another service/application to current policy 
+        elif len(splitLine) == 3 and splitLine[1] == "service": # add another service/application to current policy
             policies[PolicyID].mApplication.append(splitLine[2])
         elif address == True:
             address = Address()
@@ -246,7 +256,12 @@ def Convert(edit_Filename):
             output = beginning + " match destination-address " + dst + '\n'
             fp_dst.write(output)
         for app in IterPolicy.mApplication:
-            output = beginning + " match application " + app + '\n'
+            if app.lower() in predetermined_policies: # add "junos-" to front of app 
+                output = beginning + " match application junos-" + app.lower() + '\n'
+            elif app.lower() == "any": # get any to use consistent case
+                output = beginning + " match application " + app.lower() + '\n'
+            else:
+                output = beginning + " match application " + app + '\n'
             fp_dst.write(output)
         fp_dst.write(beginning + " then " + IterPolicy.mAction + '\n')
 

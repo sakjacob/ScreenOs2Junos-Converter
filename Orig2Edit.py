@@ -14,6 +14,9 @@ lines will be copied from orginal document to edit file.
 
 Author: Jake Sak
 Last edit: 3-19-20
+
+To do
+*make names for intermediary files more concise
 """
 
 
