@@ -76,7 +76,6 @@ def Convert(edit_Filename):
     predetermined_policies = set()
     for policy in policy_fp:
         predetermined_policies.add(policy.replace('\n',""))
-    print(predetermined_policies)
 
     for line in file:
         
@@ -86,6 +85,10 @@ def Convert(edit_Filename):
         addressSet = False
 
         splitLine = shlex.split(line)
+        sp_index = 0 # index of arg in splitline
+        for arg in splitLine: # args do not have spaces in junos
+            splitLine[sp_index] = arg.replace(" ","-")
+            sp_index += 1
 
         if splitLine[1] == "address":
             address = True
