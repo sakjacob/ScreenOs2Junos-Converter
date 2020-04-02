@@ -72,7 +72,7 @@ def Convert(edit_Filename):
     PolicyID = 0 
 
     # set below used to convert predefined junos policies
-    policy_fp = open(os.path.join(sys.path[0], "predefined_junos_A-M.txt"), "r") 
+    policy_fp = open(os.path.join(sys.path[0], "predefined-services.txt"), "r") 
     predetermined_policies = set()
     for policy in policy_fp:
         predetermined_policies.add(policy.replace('\n',""))
@@ -98,31 +98,6 @@ def Convert(edit_Filename):
             policy = True
         elif splitLine[1] == "service":
             application = True
-
-        # for key in splitLine:
-        #     if key == "policy" and len(splitLine) > 4: # determines what type of line it is editing
-        #         policy = True
-        #         break
-        #     if splitLine[1] == "src-address": # any excess info for policies gets stored in the last object stored
-        #         policies[-1].mSrcAdress.append(splitLine[2])
-        #     if splitLine[1] == "dest-address":
-        #         policies[-1].mDestAdress.append(splitLine[2])
-        #     if addressSets and splitLine[1] == "group": # any excess address in this group get added to that object
-        #         if splitLine[4] == addressSets[-1].mSetName:
-        #             nf = splitLine[6]
-        #             nf = nf[1:-1]
-        #             addressSets[-1].mAddresses.append(nf)
-        #             break
-                
-        #     if key == "address":
-        #         address = True
-        #         break
-        #     if key == "group":
-        #         adressSet = True
-        #         break
-        #     if key == "service":
-        #         application = True
-        #         break
             
         """
         Sam policy code
@@ -213,15 +188,15 @@ def Convert(edit_Filename):
             else:
                 print("\nFailure to convert line: ")
                 print(line)
-        elif application == True:
-            application = Application()
-            for app in applications: # make sure app names are differant (ie. appname != appname_1)
-                if app.mAppName == splitLine[2]:
-                    app.mID += 1
-            application.mProtocol = splitLine[4]
-            application.mSourceRange = splitLine[6]
-            application.mDestRange = splitLine[8]
-            applications.append(application)
+        # elif application == True:
+        #     application = Application()
+        #     for app in applications: # make sure app names are differant (ie. appname != appname_1)
+        #         if app.mAppName == splitLine[2]:
+        #             app.mID += 1
+        #     application.mProtocol = splitLine[4]
+        #     application.mSourceRange = splitLine[6]
+        #     application.mDestRange = splitLine[8]
+        #     applications.append(application)
         else:
             print("\nFailure to convert line: ")
             print(line)
