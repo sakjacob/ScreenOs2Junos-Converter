@@ -15,6 +15,7 @@ addresses = []
 addressSets = dict()
 policies = dict()
 applications = []
+applicationSets =[]
 
 
 
@@ -54,6 +55,11 @@ class Application:
        self.mDestRange = ""
        self.mProtocol = []
 
+class ApplicationSet:
+    def __init__(self):
+       self.mAppName = ""
+       self.mProtocol = []
+
 def Convert(edit_Filename):
     failedLines = 0
     lSystem = input("Please type in the name of the logical system you would like to use: \n")
@@ -83,6 +89,7 @@ def Convert(edit_Filename):
         application = False
         address = False
         addressSet = False
+        applicationSet = False
 
         splitLine = shlex.split(line)
         sp_index = 0 # index of arg in splitline
