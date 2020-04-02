@@ -1,0 +1,241 @@
+
+set service "AppleRDP" protocol udp src-port 0-65535 dst-port 5900-5900
+set service "AppleRDP" + udp src-port 0-65535 dst-port 3283-3283
+set service "AppleRDP" + tcp src-port 0-65535 dst-port 5900-5900
+set service "AppleRDP" + tcp src-port 0-65535 dst-port 3283-3283
+set service "Rdesktop" protocol tcp src-port 0-65535 dst-port 3389-3389
+set service "IPP" protocol udp src-port 0-65535 dst-port 631-631
+set service "IPP" + tcp src-port 0-65535 dst-port 631-631
+set service "Time-Clock" protocol tcp src-port 0-65535 dst-port 52440-52440
+set service "Time-Clock" + tcp src-port 0-65535 dst-port 52442-52442
+set service "Time-Clock" + tcp src-port 0-65535 dst-port 2500-2501
+set service "Commvault" protocol tcp src-port 0-65535 dst-port 8600-8799
+set service "Commvault" + tcp src-port 0-65535 dst-port 8400-8407
+set service "RAW_Printing" protocol tcp src-port 0-65535 dst-port 9100-9100
+set service "Oracle-Mimsy" protocol tcp src-port 0-65535 dst-port 1521-1521 timeout 480
+
+set zone id 1081 "bam-u"
+set zone id 1082 "bam-wks"
+set zone id 1083 "bam-srv"
+set zone "bam-u" tcp-rst
+set zone "bam-wks" tcp-rst
+set zone "bam-srv" tcp-rst
+set zone "bam-u" screen ping-death
+set zone "bam-u" screen limit-session source-ip-based 2000
+set zone "bam-u" screen limit-session destination-ip-based 6000
+
+set address "bam-u" "10.129.0.0/16" 10.129.0.0 255.255.0.0
+set address "bam-u" "35.10.208.128/25" 35.10.208.128 255.255.255.128
+set address "bam-u" "35.10.65.0/24" 35.10.65.0 255.255.255.0
+set address "bam-u" "35.10.81.0/24" 35.10.81.0 255.255.255.0
+set address "bam-u" "35.13.0.0/16" 35.13.0.0 255.255.0.0
+set address "bam-u" "35.14.0.0/16" 35.14.0.0 255.255.0.0
+set address "bam-u" "35.15.14.192/27" 35.15.14.192 255.255.255.224
+set address "bam-u" "35.15.65.0/24" 35.15.65.0 255.255.255.0
+set address "bam-u" "35.15.81.0/24" 35.15.81.0 255.255.255.0
+set address "bam-u" "35.20.0.0/14" 35.20.0.0 255.252.0.0
+set address "bam-u" "35.20.0.0/15" 35.20.0.0 255.254.0.0
+set address "bam-u" "35.22.0.0/15" 35.22.0.0 255.254.0.0
+set address "bam-u" "35.8.0.0/13" 35.8.0.0 255.248.0.0
+set address "bam-u" "35.8.108.0/24" 35.8.108.0 255.255.255.0
+set address "bam-u" "35.8.44.64/26" 35.8.44.64 255.255.255.192
+set address "bam-u" "35.8.65.192/27" 35.8.65.192 255.255.255.224
+set address "bam-u" "35.8.74.0/24" 35.8.74.0 255.255.255.0
+set address "bam-u" "35.8.76.128/25" 35.8.76.128 255.255.255.128
+set address "bam-u" "35.8.97.0/24" 35.8.97.0 255.255.255.0
+set address "bam-u" "35.9.199.0/24" 35.9.199.0 255.255.255.0
+set address "bam-u" "35.9.51.152/29" 35.9.51.152 255.255.255.248
+set address "bam-u" "AIS_112" 35.8.112.0 255.255.255.0
+set address "bam-u" "AIS_113" 35.8.113.0 255.255.255.0
+set address "bam-u" "AIS_35-9-164-0_24" 35.9.164.0 255.255.255.0
+set address "bam-u" "AIS_35-9-177-0_24" 35.9.177.0 255.255.255.0
+set address "bam-u" "AIS_Eyde" 35.9.115.0 255.255.255.0
+set address "bam-u" "atsmediagent01.ats.msu.edu" 35.9.2.147 255.255.255.255
+set address "bam-u" "atsmediagent02.ats.msu.edu" 35.9.2.148 255.255.255.255
+set address "bam-u" "backupcs1.ais.msu.edu" 35.8.113.12 255.255.255.255
+set address "bam-u" "backupma1.ais.msu.edu" 35.8.113.13 255.255.255.255
+set address "bam-u" "backupma2.ais.msu.edu" 35.8.113.14 255.255.255.255
+set address "bam-u" "backupma3.ais.msu.edu" 35.8.113.15 255.255.255.255
+set address "bam-u" "backupma4.ais.msu.edu" 35.8.113.11 255.255.255.255
+set address "bam-u" "CampusVPN.Staff.Pulse.NetID" 35.12.72.0 255.255.254.0
+set address "bam-u" "cc-campusad-1392" 35.8.154.128 255.255.255.240
+set address "bam-u" "cc-mail" 35.9.75.0 255.255.255.0
+set address "bam-u" "CommVault-MediaAgent-01" 35.12.129.10 255.255.255.255
+set address "bam-u" "CommVault-MediaAgent-02" 35.12.129.11 255.255.255.255
+set address "bam-u" "CommVault-MediaAgent-03" 35.12.129.15 255.255.255.255
+set address "bam-u" "CommVault-MediaAgent-04" 35.12.129.16 255.255.255.255
+set address "bam-u" "CommVault-MediaAgent-05" 35.12.129.20 255.255.255.255
+set address "bam-u" "CommVault-MediaAgent-06" 35.12.129.25 255.255.255.255
+set address "bam-u" "CommVault-MediaAgent-07" 35.12.129.205 255.255.255.255
+set address "bam-u" "CommVault-Server01" 35.12.129.200 255.255.255.255
+set address "bam-u" "dhcp1.acns.msu.edu" 35.8.2.22 255.255.255.255
+set address "bam-u" "dhcp2.acns.msu.edu" 35.8.2.23 255.255.255.255
+set address "bam-u" "DPPS-UltraTime" 35.8.29.100 255.255.255.255
+set address "bam-u" "Ian_Walker" 35.10.208.207 255.255.255.255
+set address "bam-u" "Ian_Walker_Laptop" 35.10.208.155 255.255.255.255
+set address "bam-u" "Ian_Walker_SS" 35.10.81.83 255.255.255.255
+set address "bam-u" "LKH_Laptop" 35.10.208.158 255.255.255.255
+set address "bam-u" "nmserv1.acns.msu.edu" 35.8.2.45 255.255.255.255
+set address "bam-u" "VLAN_215_Commvault" 35.9.2.144 255.255.255.240
+set address "bam-u" "vulnmgmt0.itservices.msu.edu" 35.8.6.45 255.255.255.255
+set address "bam-u" "vulnmgmt1.itservices.msu.edu" 35.8.13.200 255.255.255.255
+set address "bam-wks" "c2020-bam" 35.8.102.4 255.255.255.255
+set address "bam-wks" "canonipf6400.rohan.provost" 35.8.102.15 255.255.255.255
+set address "bam-wks" "DPPS-Timeclock" 35.8.102.30 255.255.255.255
+set address "bam-wks" "hpcp3525-bam" 35.8.102.2 255.255.255.255
+set address "bam-wks" "hpljp3015-bam" 35.8.102.3 255.255.255.255
+set address "bam-wks" "Lobby-TV1" 35.8.102.10 255.255.255.255
+set address "bam-wks" "Lobby-TV2" 35.8.102.11 255.255.255.255
+set address "bam-wks" "Lobby-TV3" 35.8.102.12 255.255.255.255
+set address "bam-srv" "prvst-fps-bam" 35.9.51.101 255.255.255.255
+set address "bam-srv" "prvst-kam-fps.provost.ad.msu.edu" 35.9.51.100 255.255.255.255
+set address "bam-srv" "prvst-mimsy.provost.msu.edu" 35.9.51.102 255.255.255.255
+set address "bam-srv" "VLAN_1308" 35.9.51.96 255.255.255.240
+set group address "bam-u" "All_AIS"
+set group address "bam-u" "All_AIS" add "AIS_112"
+set group address "bam-u" "All_AIS" add "AIS_113"
+set group address "bam-u" "All_AIS" add "AIS_35-9-164-0_24"
+set group address "bam-u" "All_AIS" add "AIS_35-9-177-0_24"
+set group address "bam-u" "All_AIS" add "AIS_Eyde"
+set group address "bam-u" "All_AIS" add "cc-campusad-1392"
+set group address "bam-u" "Assessment-Scanners" comment "ITSD689611"
+set group address "bam-u" "Assessment-Scanners" add "vulnmgmt0.itservices.msu.edu"
+set group address "bam-u" "Assessment-Scanners" add "vulnmgmt1.itservices.msu.edu"
+set group address "bam-u" "Campus"
+set group address "bam-u" "Campus" add "35.20.0.0/14"
+set group address "bam-u" "Campus" add "35.8.0.0/13"
+set group address "bam-u" "Campus Wireless"
+set group address "bam-u" "Campus Wireless" add "10.129.0.0/16"
+set group address "bam-u" "Campus Wireless" add "35.13.0.0/16"
+set group address "bam-u" "Campus Wireless" add "35.14.0.0/16"
+set group address "bam-u" "Campus Wireless" add "35.20.0.0/15"
+set group address "bam-u" "Campus Wireless" add "35.22.0.0/15"
+set group address "bam-u" "Campus Wireless" add "35.9.199.0/24"
+set group address "bam-u" "CommVault-MediaAgents"
+set group address "bam-u" "CommVault-MediaAgents" add "CommVault-MediaAgent-01"
+set group address "bam-u" "CommVault-MediaAgents" add "CommVault-MediaAgent-02"
+set group address "bam-u" "CommVault-MediaAgents" add "CommVault-MediaAgent-03"
+set group address "bam-u" "CommVault-MediaAgents" add "CommVault-MediaAgent-04"
+set group address "bam-u" "CommVault-MediaAgents" add "CommVault-MediaAgent-05"
+set group address "bam-u" "CommVault-MediaAgents" add "CommVault-MediaAgent-06"
+set group address "bam-u" "CommVault-MediaAgents" add "CommVault-MediaAgent-07"
+set group address "bam-u" "CommVault-MediaAgents" add "CommVault-Server01"
+set group address "bam-u" "CommvaultServers"
+set group address "bam-u" "CommvaultServers" add "atsmediagent01.ats.msu.edu"
+set group address "bam-u" "CommvaultServers" add "atsmediagent02.ats.msu.edu"
+set group address "bam-u" "CommvaultServers" add "backupcs1.ais.msu.edu"
+set group address "bam-u" "CommvaultServers" add "backupma1.ais.msu.edu"
+set group address "bam-u" "CommvaultServers" add "backupma2.ais.msu.edu"
+set group address "bam-u" "CommvaultServers" add "backupma3.ais.msu.edu"
+set group address "bam-u" "CommvaultServers" add "backupma4.ais.msu.edu"
+set group address "bam-u" "VLAN_1171_SSB_ADM"
+set group address "bam-u" "VLAN_1171_SSB_ADM" add "35.10.81.0/24"
+set group address "bam-u" "VLAN_1171_SSB_ADM" add "35.15.81.0/24"
+set group address "bam-u" "VLAN_1171_SSB_ADM" add "35.8.108.0/24"
+set group address "bam-u" "VLAN_1171_SSB_ADM" add "35.8.74.0/24"
+set group address "bam-u" "VLAN_1171_SSB_ADM" add "35.8.76.128/25"
+set group address "bam-u" "VLAN_1196_Kresge"
+set group address "bam-u" "VLAN_1196_Kresge" add "35.10.65.0/24"
+set group address "bam-u" "VLAN_1196_Kresge" add "35.15.65.0/24"
+set group address "bam-u" "VLAN_1196_Kresge" add "35.8.97.0/24"
+set group address "bam-u" "VLAN_1309_Provost-wks"
+set group address "bam-u" "VLAN_1309_Provost-wks" add "35.10.208.128/25"
+set group address "bam-u" "VLAN_1309_Provost-wks" add "35.15.14.192/27"
+set group address "bam-u" "VLAN_1309_Provost-wks" add "35.8.44.64/26"
+set group address "bam-u" "VLAN_1309_Provost-wks" add "35.8.65.192/27"
+set group address "bam-u" "VLAN_1344_Provost-srv"
+set group address "bam-u" "VLAN_1344_Provost-srv" add "35.9.51.152/29"
+
+set policy id 200 from "bam-u" to "bam-wks"  "dhcp1.acns.msu.edu" "Any" "DHCP-Relay" permit
+set policy id 200
+set src-address "dhcp2.acns.msu.edu"
+set src-address "nmserv1.acns.msu.edu"
+set policy id 201 from "bam-u" to "bam-srv"  "Any" "Any" "ICMP-ANY" permit
+set policy id 201
+set policy id 202 from "bam-srv" to "bam-u"  "Any" "Any" "ICMP-ANY" permit
+set policy id 202
+set policy id 203 from "bam-u" to "bam-wks"  "Any" "Any" "ICMP-ANY" permit
+set policy id 203
+set policy id 204 from "bam-wks" to "bam-u"  "Any" "Any" "ICMP-ANY" permit
+set policy id 204
+set policy id 205 from "bam-srv" to "bam-wks"  "Any" "Any" "ICMP-ANY" permit
+set policy id 205
+set policy id 206 from "bam-wks" to "bam-srv"  "Any" "Any" "ICMP-ANY" permit
+set policy id 206
+set policy id 30 from "bam-u" to "bam-srv"  "Assessment-Scanners" "Any" "ANY" permit
+set policy id 30
+set policy id 32 from "bam-u" to "bam-wks"  "Assessment-Scanners" "Any" "ANY" permit
+set policy id 32
+set policy id 1 from "bam-srv" to "bam-u"  "VLAN_1308" "Any" "ANY" permit
+set policy id 1
+set policy id 10 from "bam-u" to "bam-srv"  "CampusVPN.Staff.Pulse.NetID" "prvst-mimsy.provost.msu.edu" "Oracle-Mimsy" permit
+set policy id 10
+set src-address "VLAN_1171_SSB_ADM"
+set src-address "VLAN_1196_Kresge"
+set src-address "VLAN_1309_Provost-wks"
+set src-address "VLAN_1344_Provost-srv"
+set policy id 27 from "bam-u" to "bam-srv"  "CampusVPN.Staff.Pulse.NetID" "prvst-fps-bam" "Rdesktop" permit
+set policy id 27
+set src-address "Ian_Walker"
+set src-address "Ian_Walker_Laptop"
+set src-address "Ian_Walker_SS"
+set src-address "LKH_Laptop"
+set dst-address "prvst-kam-fps.provost.ad.msu.edu"
+set dst-address "prvst-mimsy.provost.msu.edu"
+
+set policy id 5 from "bam-u" to "bam-srv"  "Campus" "Any" "Rdesktop" deny
+set policy id 5
+set policy id 3 from "bam-u" to "bam-srv"  "CampusVPN.Staff.Pulse.NetID" "prvst-fps-bam" "ANY" permit
+set policy id 3
+set src-address "All_AIS"
+set src-address "Campus Wireless"
+set src-address "VLAN_1171_SSB_ADM"
+set src-address "VLAN_1196_Kresge"
+set src-address "VLAN_1309_Provost-wks"
+set src-address "VLAN_1344_Provost-srv"
+set dst-address "prvst-kam-fps.provost.ad.msu.edu"
+set policy id 4 from "bam-u" to "bam-srv"  "VLAN_215_Commvault" "prvst-fps-bam" "Commvault" permit
+set policy id 4
+set src-address "CommVault-MediaAgents"
+set src-address "CommvaultServers"
+set dst-address "prvst-kam-fps.provost.ad.msu.edu"
+set dst-address "prvst-mimsy.provost.msu.edu"
+set dst-address "VLAN_1308"
+set policy id 2 from "bam-u" to "bam-srv"  "Any" "Any" "ANY" deny
+set policy id 2
+set policy id 14 from "bam-wks" to "bam-u"  "Any" "cc-mail" "SMTP" permit
+set policy id 14
+set dst-address "VLAN_1309_Provost-wks"
+set dst-address "VLAN_1344_Provost-srv"
+set policy id 15 from "bam-wks" to "bam-u"  "Any" "Any" "IRC" deny
+set policy id 15
+set service "SMTP"
+set service "TFTP"
+set policy id 16 from "bam-wks" to "bam-u"  "Any" "Any" "ANY" permit
+set policy id 16
+set policy id 29 from "bam-u" to "bam-wks"  "DPPS-UltraTime" "DPPS-Timeclock" "Time-Clock" permit
+set policy id 29
+set policy id 18 from "bam-u" to "bam-wks"  "VLAN_1309_Provost-wks" "Any" "ANY" permit
+set policy id 18
+set src-address "VLAN_1344_Provost-srv"
+set policy id 24 name "Wireless-Printing" from "bam-u" to "bam-wks"  "Campus Wireless" "c2020-bam" "HTTP" permit
+set policy id 24
+set dst-address "canonipf6400.rohan.provost"
+set dst-address "hpcp3525-bam"
+set dst-address "hpljp3015-bam"
+set service "HTTPS"
+set service "IPP"
+set service "RAW_Printing"
+set service "SNMP"
+set policy id 25 from "bam-u" to "bam-wks"  "Campus Wireless" "Lobby-TV1" "AppleRDP" permit
+set policy id 25
+set dst-address "Lobby-TV2"
+set dst-address "Lobby-TV3"
+set policy id 19 from "bam-u" to "bam-wks"  "Any" "Any" "ANY" deny
+set policy id 19
+set policy id 26 from "bam-wks" to "bam-srv"  "Any" "prvst-mimsy.provost.msu.edu" "Oracle-Mimsy" permit
+set policy id 26
+set policy id 20 from "bam-wks" to "bam-srv"  "Any" "Any" "ANY" permit
+set policy id 20
+set policy id 21 from "bam-srv" to "bam-wks"  "Any" "Any" "ANY" permit
+set policy id 21

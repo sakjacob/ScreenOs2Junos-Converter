@@ -9,12 +9,12 @@ import math
 
 def main():
     userChoice = input("Type 1 to compare orginal to tool, 2 to compare tool to original: ")
-    tool_config = "C:\\Users\\sakjacob\\Desktop\\S2J\\bcc\\bcc-edit-srx_tool.config"
+    tool_config = "C:\\Users\\gendelm2\\Desktop\\ScreenOs2Junos-Converter\\bcc-srx_tool.config"
     fp_tool = open(tool_config,"r")
-    orig_config = "C:\\Users\\sakjacob\\Desktop\\S2J\\bcc\\bcc-srx.config"
+    orig_config = "C:\\Users\\gendelm2\\Desktop\\ScreenOs2Junos-Converter\\bcc-srx.config"
     print(orig_config)
     fp_orig = open(orig_config,"r")
-    log = "C:\\Users\\sakjacob\\Desktop\\S2J\\bcc\\config-comparision.txt"
+    log = "C:\\Users\\gendelm2\\Documents\\ScreenOs2Junos-Converter\\config-comparision.txt"
     fp_log = open(log, "w")
 
     orig_lines = fp_orig.readlines()

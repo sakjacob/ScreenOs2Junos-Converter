@@ -1,0 +1,546 @@
+
+set service "SMTP-Submission" protocol tcp src-port 0-65535 dst-port 587-587
+set service "netbios-ssn-udp" protocol udp src-port 1-65535 dst-port 139-139
+set service "netbios-ssn-tcp" protocol tcp src-port 1-65535 dst-port 139-139
+set service "tcp/5000-5999" protocol tcp src-port 1-65535 dst-port 5000-5999
+set service "MS-RPC-UDP" protocol udp src-port 1-65535 dst-port 135-135
+set service "port_445" protocol udp src-port 1-65535 dst-port 445-445
+set service "port_445" + tcp src-port 1-65535 dst-port 445-445
+set service "MS-RPC-TCP" protocol tcp src-port 1-65535 dst-port 135-135
+set service "netbios-dgm-udp" protocol udp src-port 1-65535 dst-port 138-138
+set service "TCP 8080" protocol tcp src-port 0-65535 dst-port 8080-8080
+set service "netbios-dgm-tcp" protocol tcp src-port 1-65535 dst-port 138-138
+set service "ports_3268-3269" protocol tcp src-port 1-65535 dst-port 3268-3269
+set service "SMTPS" protocol tcp src-port 0-65535 dst-port 465-465
+set service "netbios-ns-udp" protocol udp src-port 1-65535 dst-port 137-137
+set service "netbios-ns-tcp" protocol tcp src-port 1-65535 dst-port 137-137
+set service "IMAPS" protocol tcp src-port 0-65535 dst-port 993-993
+set service "POP3S" protocol tcp src-port 0-65535 dst-port 995-995
+set service "Kerberos" protocol udp src-port 0-65535 dst-port 88-88
+set service "Kerberos" + tcp src-port 0-65535 dst-port 464-464
+set service "Kerberos" + tcp src-port 0-65535 dst-port 88-88
+set service "TCP-49152-65535" protocol tcp src-port 1-65535 dst-port 49152-65535
+set service "tcp-32000-32001" protocol tcp src-port 1-65535 dst-port 32000-32001
+set service "port-3230-3235" protocol udp src-port 1-65535 dst-port 3230-3235
+set service "port-3230-3235" + tcp src-port 1-65535 dst-port 3230-3235
+set service "udp-1718-1719" protocol udp src-port 1-65535 dst-port 1718-1719
+set service "tcp-1503" protocol tcp src-port 1-65535 dst-port 1503-1503
+set service "tcp-50000-50999" protocol tcp src-port 1-65535 dst-port 50000-50999
+set service "tcp-1731" protocol tcp src-port 1-65535 dst-port 1731-1731
+set service "tcp-20000" protocol tcp src-port 1-65535 dst-port 20000-20000
+set service "tcp-8530-8531" protocol tcp src-port 1-65535 dst-port 8530-8531
+set service "Rdesktop" protocol tcp src-port 0-65535 dst-port 3389-3389
+set service "TCP_8443" protocol tcp src-port 1-65535 dst-port 8443-8443
+set service "MATLAB-Licensing" protocol tcp src-port 0-65535 dst-port 27000-27000
+set service "MATLAB-Licensing" + tcp src-port 0-65535 dst-port 1039-1039
+set service "Commvault" protocol tcp src-port 0-65535 dst-port 8600-8799
+set service "Commvault" + tcp src-port 0-65535 dst-port 8400-8407
+set service "MS-LDAPS" protocol udp src-port 0-65535 dst-port 636-636
+set service "MS-LDAPS" + udp src-port 0-65535 dst-port 3269-3269
+set service "MS-LDAPS" + tcp src-port 0-65535 dst-port 636-636
+set service "MS-LDAPS" + tcp src-port 0-65535 dst-port 3269-3269
+set service "MS-LDAP" protocol udp src-port 0-65535 dst-port 3268-3268
+set service "MS-LDAP" + udp src-port 0-65535 dst-port 389-389
+set service "MS-LDAP" + tcp src-port 0-65535 dst-port 3268-3268
+set service "MS-LDAP" + tcp src-port 0-65535 dst-port 389-389
+set service "TCP8094" protocol tcp src-port 0-65535 dst-port 8094-8094
+set service "rtsp-udp" protocol udp src-port 1-65535 dst-port 554-554
+set service "streaming-8080" protocol tcp src-port 0-65535 dst-port 8080-8080
+set service "TCP-389" protocol tcp src-port 1-65535 dst-port 389-389
+set service "TCP-19996" protocol tcp src-port 0-65535 dst-port 19996-19996
+set service "TCP-515" protocol tcp src-port 0-65535 dst-port 515-515
+set service "UDP_1047-1049" protocol udp src-port 0-65535 dst-port 1047-1049
+set service "TCP-1688" protocol tcp src-port 0-65535 dst-port 1688-1688
+set service "TCP-1041" protocol tcp src-port 0-65535 dst-port 1041-1041
+set service "LDAP-3268" protocol tcp src-port 0-65535 dst-port 3268-3268
+set service "TCP-31865" protocol tcp src-port 0-65535 dst-port 31865-31865
+set service "SMB-Office Internal" protocol tcp src-port 0-65535 dst-port 445-445 timeout 480
+set service "port-5355" protocol udp src-port 1-65535 dst-port 5355-5355
+set service "port-5355" + tcp src-port 0-65535 dst-port 5353-5353
+set service "snmp-tcp" protocol tcp src-port 1-65535 dst-port 161-161
+set service "snmp-udp" protocol udp src-port 1-65535 dst-port 161-161
+set service "TCP_90" protocol tcp src-port 0-65535 dst-port 90-90
+set service "Avamar-Backups" protocol tcp src-port 0-65535 dst-port 28002-28002
+set service "Avamar-Backups" + tcp src-port 0-65535 dst-port 30001-30001
+set service "Avamar-Backups" + tcp src-port 0-65535 dst-port 30002-30002
+set service "SQL 1433-1434" protocol tcp src-port 0-65535 dst-port 1433-1434
+
+set zone id 1048 "bcc-srv"
+set zone id 1049 "bcc-u"
+set zone id 1050 "bcc-wks"
+set zone "Trust-bcc" tcp-rst
+set zone "bcc-srv" tcp-rst
+set zone "bcc-u" tcp-rst
+set zone "bcc-wks" tcp-rst
+set zone "bcc-u" screen ping-death
+set zone "bcc-u" screen limit-session source-ip-based 2000
+set zone "bcc-u" screen limit-session destination-ip-based 6000
+
+set address "bcc-srv" "35.8.133.90" 35.8.133.90 255.255.255.255
+set address "bcc-srv" "35.8.133.91" 35.8.133.91 255.255.255.255
+set address "bcc-srv" "35.8.133.92" 35.8.133.92 255.255.255.255
+set address "bcc-srv" "aib.msu.edu" 35.8.133.249 255.255.255.255
+set address "bcc-srv" "AMAGLOBALSIG.bus" 35.8.133.153 255.255.255.255
+set address "bcc-srv" "atlas.bus" 35.8.133.126 255.255.255.255
+set address "bcc-srv" "autodiscoverredirect.bus" 35.8.133.87 255.255.255.255 "Added by Brad 12/26/2012"
+set address "bcc-srv" "autodiscoverredirect.bus-2" 35.8.133.85 255.255.255.255
+set address "bcc-srv" "AV3.bus" 35.8.133.103 255.255.255.255
+set address "bcc-srv" "barracuda.bus" 35.8.133.110 255.255.255.255
+set address "bcc-srv" "barracuda1.bus" 35.8.133.111 255.255.255.255
+set address "bcc-srv" "ciber-web.bus" 35.8.133.160 255.255.255.255
+set address "bcc-srv" "ciber.bus" 35.8.133.57 255.255.255.255
+set address "bcc-srv" "ciber1.176.bus" 35.8.133.176 255.255.255.255
+set address "bcc-srv" "ciber1.182.bus" 35.8.133.182 255.255.255.255
+set address "bcc-srv" "ciber1.bus" 35.8.133.206 255.255.255.255
+set address "bcc-srv" "CIBER2.bus" 35.8.133.224 255.255.255.255
+set address "bcc-srv" "CSM1.bus" 35.8.133.123 255.255.255.255
+set address "bcc-srv" "CSM2.bus" 35.8.133.132 255.255.255.255 "ITSD 254434"
+set address "bcc-srv" "dc0.bus" 35.8.133.179 255.255.255.255
+set address "bcc-srv" "dc1.bus" 35.8.133.180 255.255.255.255
+set address "bcc-srv" "dc2.bus" 35.8.133.181 255.255.255.255
+set address "bcc-srv" "DEV.bus" 35.8.133.199 255.255.255.255
+set address "bcc-srv" "global-edge.bus" 35.8.133.152 255.255.255.255
+set address "bcc-srv" "global.bus" 35.8.133.154 255.255.255.255
+set address "bcc-srv" "HC-JONAS-WEB2.bus.msu.edu" 35.8.133.74 255.255.255.255
+set address "bcc-srv" "HC-JONAS2.bus.msu.edu" 35.8.133.75 255.255.255.255
+set address "bcc-srv" "hc-ms-media" 35.8.133.106 255.255.255.255
+set address "bcc-srv" "hc-ms-web" 35.8.133.107 255.255.255.255
+set address "bcc-srv" "ibc-dev.150.bus" 35.8.133.150 255.255.255.255
+set address "bcc-srv" "ibc-dev.151.bus" 35.8.133.151 255.255.255.255
+set address "bcc-srv" "itsnas.bus" 35.8.133.196 255.255.255.255
+set address "bcc-srv" "jupiter.bus" 35.8.133.116 255.255.255.255
+set address "bcc-srv" "MBA1.bus" 35.8.133.130 255.255.255.255
+set address "bcc-srv" "MBAEMAIL.bus" 35.8.133.215 255.255.255.255
+set address "bcc-srv" "MSU-CIBER.bus" 35.8.133.158 255.255.255.255
+set address "bcc-srv" "neptune.133.bus" 35.8.133.133 255.255.255.255
+set address "bcc-srv" "neptune.134.bus" 35.8.133.134 255.255.255.255
+set address "bcc-srv" "neptune.201.bus" 35.8.133.201 255.255.255.255
+set address "bcc-srv" "neptune.207.bus" 35.8.133.207 255.255.255.255
+set address "bcc-srv" "neptune.227.bus" 35.8.133.227 255.255.255.255
+set address "bcc-srv" "neptune.231.bus" 35.8.133.231 255.255.255.255
+set address "bcc-srv" "neptune.bus" 35.8.133.104 255.255.255.255
+set address "bcc-srv" "NEPTUNE02-204" 35.8.133.204 255.255.255.255
+set address "bcc-srv" "neptune02.bus" 35.8.133.114 255.255.255.255
+set address "bcc-srv" "Neptune3.bus.msu.edu" 35.8.133.129 255.255.255.255
+set address "bcc-srv" "printers.bus" 35.8.133.226 255.255.255.255
+set address "bcc-srv" "relay.bus.msu.edu" 35.8.133.95 255.255.255.255
+set address "bcc-srv" "searchglobal.bus" 35.8.133.164 255.255.255.255
+set address "bcc-srv" "WEB1-DEV.bus" 35.8.133.197 255.255.255.255
+set address "bcc-srv" "web1.bus" 35.8.133.200 255.255.255.255
+set address "bcc-srv" "WEBLP1.bus" 35.8.133.78 255.255.255.255
+set address "bcc-srv" "weblp2.bus" 35.8.133.124 255.255.255.255
+set address "bcc-srv" "weblp4.bus" 35.8.133.113 255.255.255.255
+set address "bcc-srv" "weblt1.bus" 35.8.133.79 255.255.255.255
+set address "bcc-srv" "webwp1.bus.msu.edu" 35.8.133.105 255.255.255.255
+set address "bcc-srv" "WEBWT1.bus" 35.8.133.100 255.255.255.255
+set address "bcc-u" "10.129.0.0/16" 10.129.0.0 255.255.0.0
+set address "bcc-u" "162.247.216.0/22" 162.247.216.0 255.255.252.0 "Qualtrics IP Range"
+set address "bcc-u" "192.41.90.128/26" 192.41.90.128 255.255.255.192
+set address "bcc-u" "35.10.129.0" 35.10.129.0 255.255.255.0
+set address "bcc-u" "35.10.163.0" 35.10.163.0 255.255.255.0
+set address "bcc-u" "35.10.241.0" 35.10.241.0 255.255.255.0
+set address "bcc-u" "35.10.242.0" 35.10.242.0 255.255.255.0
+set address "bcc-u" "35.10.245.0" 35.10.245.0 255.255.255.0
+set address "bcc-u" "35.12.194.0/24" 35.12.194.0 255.255.255.0
+set address "bcc-u" "35.12.55.0" 35.12.55.0 255.255.255.0
+set address "bcc-u" "35.13.0.0/16" 35.13.0.0 255.255.0.0
+set address "bcc-u" "35.14.0.0/16" 35.14.0.0 255.255.0.0
+set address "bcc-u" "35.15.1.0/24" 35.15.1.0 255.255.255.0
+set address "bcc-u" "35.20.0.0/14" 35.20.0.0 255.252.0.0
+set address "bcc-u" "35.20.0.0/15" 35.20.0.0 255.254.0.0
+set address "bcc-u" "35.22.0.0/15" 35.22.0.0 255.254.0.0
+set address "bcc-u" "35.8.0.0/13" 35.8.0.0 255.248.0.0
+set address "bcc-u" "35.8.204.0" 35.8.204.0 255.255.255.0
+set address "bcc-u" "35.8.205.191" 35.8.205.191 255.255.255.255
+set address "bcc-u" "35.8.205.192" 35.8.205.192 255.255.255.255
+set address "bcc-u" "35.8.205.193" 35.8.205.193 255.255.255.255
+set address "bcc-u" "35.8.205.194" 35.8.205.194 255.255.255.255
+set address "bcc-u" "35.8.205.195" 35.8.205.195 255.255.255.255
+set address "bcc-u" "35.8.205.196" 35.8.205.196 255.255.255.255
+set address "bcc-u" "35.9.112.0" 35.9.112.0 255.255.255.0
+set address "bcc-u" "35.9.199.0/24" 35.9.199.0 255.255.255.0
+set address "bcc-u" "64.58.224.32/27" 64.58.224.32 255.255.255.224
+set address "bcc-u" "64.58.225.80/28" 64.58.225.80 255.255.255.240
+set address "bcc-u" "66.178.195.65" 66.178.195.65 255.255.255.255
+set address "bcc-u" "66.178.195.90" 66.178.195.90 255.255.255.255
+set address "bcc-u" "A-98.197.4.238" 98.197.4.238 255.255.255.255
+set address "bcc-u" "ANR-Avamar" 35.9.121.136 255.255.255.255
+set address "bcc-u" "ATS-MGMT" 172.30.0.0 255.255.0.0
+set address "bcc-u" "atsmediagent01.ats.msu.edu" 35.9.2.147 255.255.255.255
+set address "bcc-u" "atsmediagent02.ats.msu.edu" 35.9.2.148 255.255.255.255
+set address "bcc-u" "backupcs1.ais.msu.edu" 35.8.113.12 255.255.255.255
+set address "bcc-u" "backupma1.ais.msu.edu" 35.8.113.13 255.255.255.255
+set address "bcc-u" "backupma2.ais.msu.edu" 35.8.113.14 255.255.255.255
+set address "bcc-u" "backupma3.ais.msu.edu" 35.8.113.15 255.255.255.255
+set address "bcc-u" "backupma4.ais.msu.edu" 35.8.113.11 255.255.255.255
+set address "bcc-u" "Campus-Mail" 35.9.75.0 255.255.255.0
+set address "bcc-u" "CampusVPN.Staff.Pulse.Broad" 35.12.79.32 255.255.255.240
+set address "bcc-u" "CampusVPN.Staff.Pulse.MSUIT" 35.12.75.0 255.255.255.0
+set address "bcc-u" "CampusVPN.Staff.Pulse.NetID" 35.12.72.0 255.255.254.0
+set address "bcc-u" "CampusVPN.Student.Pulse.Undergrad" 35.12.64.0 255.255.255.0
+set address "bcc-u" "cc-mgmt-VLAN" 172.30.1.0 255.255.255.0
+set address "bcc-u" "Computer Center DHCP 1" 35.10.2.0 255.255.255.0
+set address "bcc-u" "Computer Center DHCP 2" 35.10.4.0 255.255.255.0
+set address "bcc-u" "Computer Center Static" 35.8.0.0 255.255.252.0
+set address "bcc-u" "dhcp1.acns.msu.edu" 35.8.2.22 255.255.255.255
+set address "bcc-u" "dhcp2.acns.msu.edu" 35.8.2.23 255.255.255.255
+set address "bcc-u" "EDC-1" 35.10.241.0 255.255.255.0
+set address "bcc-u" "Global-ATS-Monitoring" 35.8.6.0 255.255.255.240
+set address "bcc-u" "kc-adm" 35.10.173.0 255.255.255.0
+set address "bcc-u" "netman2.ats.msu.edu" 35.8.98.12 255.255.255.255
+set address "bcc-u" "nmserv1.acns.msu.edu" 35.8.2.45 255.255.255.255
+set address "bcc-u" "smartdeva1.itservices.msu.edu" 35.8.6.7 255.255.255.255
+set address "bcc-u" "smartprda1.itservices.msu.edu" 35.8.6.6 255.255.255.255
+set address "bcc-u" "smartprdpol1.itservices.msu.edu" 35.8.6.5 255.255.255.255
+set address "bcc-u" "smartprdpol2.itservices.msu.edu" 35.8.6.9 255.255.255.255
+set address "bcc-u" "Uclub" 35.12.55.0 255.255.255.0
+set address "bcc-u" "Uclub-DHCP" 35.10.129.0 255.255.255.0
+set address "bcc-u" "VPN Hardware Addresses" 35.9.83.128 255.255.255.240
+set address "bcc-u" "vpn.itservices.msu.edu" 35.9.83.145 255.255.255.255
+set address "bcc-u" "vulnmgmt0.itservices.msu.edu" 35.8.6.45 255.255.255.255
+set address "bcc-u" "vulnmgmt1.itservices.msu.edu" 35.8.13.200 255.255.255.255
+set address "bcc-wks" "35.9.193.3" 35.9.193.3 255.255.255.255
+set address "bcc-wks" "35.9.195.199" 35.9.195.199 255.255.255.255
+set address "bcc-wks" "35.9.195.218" 35.9.195.218 255.255.255.255
+set address "bcc-wks" "35.9.195.219" 35.9.195.219 255.255.255.255
+set address "bcc-wks" "IBC-SVN" 35.9.193.120 255.255.255.255
+set address "bcc-wks" "lear-e66-camsrv.bus" 35.9.194.30 255.255.255.255
+set address "bcc-wks" "Lear_VC1" 35.9.193.236 255.255.255.255
+set address "bcc-wks" "Lear_VC2" 35.9.193.237 255.255.255.255
+set group address "bcc-srv" "autodiscoverredirect-bus"
+set group address "bcc-srv" "autodiscoverredirect-bus" add "autodiscoverredirect.bus"
+set group address "bcc-srv" "autodiscoverredirect-bus" add "autodiscoverredirect.bus-2"
+set group address "bcc-srv" "DOMAIN_CONTROLLERS_BUS"
+set group address "bcc-srv" "DOMAIN_CONTROLLERS_BUS" add "dc0.bus"
+set group address "bcc-srv" "DOMAIN_CONTROLLERS_BUS" add "dc1.bus"
+set group address "bcc-srv" "DOMAIN_CONTROLLERS_BUS" add "dc2.bus"
+set group address "bcc-srv" "mail.bus.msu.edu"
+set group address "bcc-srv" "mail.bus.msu.edu" add "35.8.133.90"
+set group address "bcc-srv" "mail.bus.msu.edu" add "35.8.133.91"
+set group address "bcc-srv" "mail.bus.msu.edu" add "35.8.133.92"
+set group address "bcc-u" "Assessment-Scanners" comment "ITSD689611"
+set group address "bcc-u" "Assessment-Scanners" add "vulnmgmt0.itservices.msu.edu"
+set group address "bcc-u" "Assessment-Scanners" add "vulnmgmt1.itservices.msu.edu"
+set group address "bcc-u" "ATS"
+set group address "bcc-u" "ATS" add "cc-mgmt-VLAN"
+set group address "bcc-u" "ATS" add "Computer Center DHCP 1"
+set group address "bcc-u" "ATS" add "Computer Center DHCP 2"
+set group address "bcc-u" "ATS" add "Computer Center Static"
+set group address "bcc-u" "ATS" add "Global-ATS-Monitoring"
+set group address "bcc-u" "ATS" add "netman2.ats.msu.edu"
+set group address "bcc-u" "Campus"
+set group address "bcc-u" "Campus" add "35.20.0.0/14"
+set group address "bcc-u" "Campus" add "35.8.0.0/13"
+set group address "bcc-u" "Campus-Wireless"
+set group address "bcc-u" "Campus-Wireless" add "10.129.0.0/16"
+set group address "bcc-u" "Campus-Wireless" add "35.12.194.0/24"
+set group address "bcc-u" "Campus-Wireless" add "35.13.0.0/16"
+set group address "bcc-u" "Campus-Wireless" add "35.14.0.0/16"
+set group address "bcc-u" "Campus-Wireless" add "35.15.1.0/24"
+set group address "bcc-u" "Campus-Wireless" add "35.20.0.0/15"
+set group address "bcc-u" "Campus-Wireless" add "35.22.0.0/15"
+set group address "bcc-u" "Campus-Wireless" add "35.9.199.0/24"
+set group address "bcc-u" "CommvaultServers"
+set group address "bcc-u" "CommvaultServers" add "atsmediagent01.ats.msu.edu"
+set group address "bcc-u" "CommvaultServers" add "atsmediagent02.ats.msu.edu"
+set group address "bcc-u" "CommvaultServers" add "backupcs1.ais.msu.edu"
+set group address "bcc-u" "CommvaultServers" add "backupma1.ais.msu.edu"
+set group address "bcc-u" "CommvaultServers" add "backupma2.ais.msu.edu"
+set group address "bcc-u" "CommvaultServers" add "backupma3.ais.msu.edu"
+set group address "bcc-u" "CommvaultServers" add "backupma4.ais.msu.edu"
+set group address "bcc-u" "HC-UC-ADM-NET"
+set group address "bcc-u" "HC-UC-ADM-NET" add "35.12.55.0"
+set group address "bcc-u" "HC-UC-ADM-NET" add "35.9.112.0"
+set group address "bcc-u" "HC_GBL_KC"
+set group address "bcc-u" "HC_GBL_KC" add "35.10.129.0"
+set group address "bcc-u" "HC_GBL_KC" add "35.10.163.0"
+set group address "bcc-u" "HC_GBL_KC" add "35.10.241.0"
+set group address "bcc-u" "HC_GBL_KC" add "35.10.242.0"
+set group address "bcc-u" "HC_GBL_KC" add "35.10.245.0"
+set group address "bcc-u" "HC_GBL_KC" add "35.12.55.0"
+set group address "bcc-u" "HC_GBL_KC" add "35.8.204.0"
+set group address "bcc-u" "HC_GBL_KC" add "35.8.205.191"
+set group address "bcc-u" "HC_GBL_KC" add "35.8.205.192"
+set group address "bcc-u" "HC_GBL_KC" add "35.8.205.193"
+set group address "bcc-u" "HC_GBL_KC" add "35.8.205.194"
+set group address "bcc-u" "HC_GBL_KC" add "35.8.205.195"
+set group address "bcc-u" "HC_GBL_KC" add "35.8.205.196"
+set group address "bcc-u" "HC_GBL_KC" add "35.9.112.0"
+set group address "bcc-u" "HC_GBL_KC" add "kc-adm"
+set group address "bcc-u" "Qualtrics"
+set group address "bcc-u" "Qualtrics" add "162.247.216.0/22"
+set group address "bcc-u" "Qualtrics" add "192.41.90.128/26"
+set group address "bcc-u" "Qualtrics" add "64.58.224.32/27"
+set group address "bcc-u" "Qualtrics" add "64.58.225.80/28"
+set group address "bcc-u" "Smart Monitor"
+set group address "bcc-u" "Smart Monitor" add "smartdeva1.itservices.msu.edu"
+set group address "bcc-u" "Smart Monitor" add "smartprda1.itservices.msu.edu"
+set group address "bcc-u" "Smart Monitor" add "smartprdpol1.itservices.msu.edu"
+set group address "bcc-u" "Smart Monitor" add "smartprdpol2.itservices.msu.edu"
+set group service "MS-RPC" comment "MS RPC Service Group"
+set group service "MS-RPC" add "MS-RPC-TCP"
+set group service "MS-RPC" add "MS-RPC-UDP"
+set group service "netbios-dgm"
+set group service "netbios-dgm" add "netbios-dgm-tcp"
+set group service "netbios-dgm" add "netbios-dgm-udp"
+set group service "netbios-ns"
+set group service "netbios-ns" add "netbios-ns-tcp"
+set group service "netbios-ns" add "netbios-ns-udp"
+set group service "netbios-ssn"
+set group service "netbios-ssn" add "netbios-ssn-tcp"
+set group service "netbios-ssn" add "netbios-ssn-udp"
+set group service "RTSP-ALL" comment "RTSP"
+set group service "RTSP-ALL" add "RTSP"
+set group service "RTSP-ALL" add "rtsp-udp"
+set group service "snmp-idp" comment "Includes TCP, UDP, not TRAP"
+set group service "snmp-idp" add "snmp-tcp"
+set group service "snmp-idp" add "snmp-udp"
+
+set policy id 200 from "bcc-u" to "bcc-wks"  "dhcp1.acns.msu.edu" "Any" "DHCP-Relay" permit
+set policy id 200
+set src-address "dhcp2.acns.msu.edu"
+set src-address "nmserv1.acns.msu.edu"
+set policy id 201 from "bcc-u" to "bcc-srv"  "Any" "Any" "ICMP-ANY" permit
+set policy id 201
+set policy id 202 from "bcc-srv" to "bcc-u"  "Any" "Any" "ICMP-ANY" permit
+set policy id 202
+set policy id 203 from "bcc-u" to "bcc-wks"  "Any" "Any" "ICMP-ANY" permit
+set policy id 203
+set policy id 204 from "bcc-wks" to "bcc-u"  "Any" "Any" "ICMP-ANY" permit
+set policy id 204
+set policy id 205 from "bcc-srv" to "bcc-wks"  "Any" "Any" "ICMP-ANY" permit
+set policy id 205
+set policy id 206 from "bcc-wks" to "bcc-srv"  "Any" "Any" "ICMP-ANY" permit
+set policy id 206
+set policy id 64 from "bcc-u" to "bcc-srv"  "Assessment-Scanners" "Any" "ANY" permit
+set policy id 64
+set policy id 65 from "bcc-u" to "bcc-wks"  "Assessment-Scanners" "Any" "ANY" permit
+set policy id 65
+set policy id 2 from "bcc-srv" to "bcc-u"  "Any" "Any" "ANY" permit log count
+set policy id 2
+set policy id 44 from "bcc-srv" to "bcc-wks"  "Any" "Any" "ANY" permit log
+set policy id 44
+set policy id 25 from "bcc-wks" to "bcc-u"  "Any" "Any" "ANY" permit
+set policy id 25
+set policy id 29 from "bcc-wks" to "bcc-srv"  "Any" "Any" "ANY" permit
+set policy id 29
+set policy id 209 from "bcc-u" to "bcc-srv"  "Smart Monitor" "Any" "ICMP-ANY" permit log
+set policy id 209
+set service "snmp-idp"
+set policy id 42 from "bcc-u" to "bcc-srv"  "CampusVPN.Staff.Pulse.Broad" "Any" "ANY" permit log
+set policy id 42
+set src-address "VPN Hardware Addresses"
+set policy id 45 from "bcc-u" to "bcc-srv"  "ATS-MGMT" "Any" "ANY" permit
+set policy id 45
+set src-address "ATS"
+set policy id 46 from "bcc-u" to "bcc-wks"  "ATS-MGMT" "Any" "ANY" permit
+set policy id 46
+set src-address "ATS"
+set policy id 62 from "bcc-u" to "bcc-srv"  "Any" "hc-ms-web" "TCP8094" permit log
+set policy id 62
+set policy id 56 from "bcc-u" to "bcc-srv"  "Campus" "atlas.bus" "MATLAB-Licensing" permit log
+set policy id 56
+set dst-address "CSM1.bus"
+set dst-address "CSM2.bus"
+set policy id 7 from "bcc-u" to "bcc-srv"  "Campus" "atlas.bus" "SMB" permit count
+set policy id 7
+set dst-address "global-edge.bus"
+set dst-address "jupiter.bus"
+set service "netbios-ns"
+set service "netbios-ssn"
+set policy id 14 from "bcc-u" to "bcc-srv"  "Campus" "printers.bus" "HTTP" permit
+set policy id 14
+set service "HTTPS"
+set service "MS-RPC-TCP"
+set service "port-5355"
+set service "port_445"
+set service "netbios-dgm"
+set service "netbios-ns"
+set service "netbios-ssn"
+set policy id 41 from "bcc-u" to "bcc-srv"  "Campus" "ibc-dev.150.bus" "HTTP" permit
+set policy id 41
+set dst-address "ibc-dev.151.bus"
+set dst-address "WEB1-DEV.bus"
+set dst-address "WEBWT1.bus"
+set service "HTTPS"
+set policy id 61 from "bcc-u" to "bcc-srv"  "Any" "weblt1.bus" "SSH" permit log
+set policy id 61
+set policy id 22 from "bcc-u" to "bcc-srv"  "Campus" "DOMAIN_CONTROLLERS_BUS" "DNS" permit
+set policy id 22
+set service "Kerberos"
+set service "MS-LDAP"
+set service "MS-LDAPS"
+set service "NTP"
+set service "port_445"
+set service "ports_3268-3269"
+set service "TCP-49152-65535"
+set service "MS-RPC"
+set service "netbios-dgm"
+set policy id 40 from "bcc-u" to "bcc-srv"  "66.178.195.65" "DOMAIN_CONTROLLERS_BUS" "MS-LDAP" permit
+set policy id 40
+set src-address "66.178.195.90"
+set src-address "A-98.197.4.238"
+set service "MS-LDAPS"
+set policy id 57 from "bcc-u" to "bcc-srv"  "Any" "DOMAIN_CONTROLLERS_BUS" "DNS" permit
+set policy id 57 disable
+set policy id 57
+set policy id 3 from "bcc-u" to "bcc-srv"  "Any" "global-edge.bus" "HTTP" permit
+set policy id 3 disable
+set policy id 3
+set service "HTTPS"
+set service "TCP 8080"
+set policy id 35 from "bcc-u" to "bcc-srv"  "Any" "global.bus" "tcp-20000" permit
+set policy id 35 disable
+set policy id 35
+set policy id 55 from "bcc-u" to "bcc-srv"  "Any" "web1.bus" "TCP_8443" permit
+set policy id 55 disable
+set policy id 55
+set policy id 5 from "bcc-u" to "bcc-srv"  "Any" "aib.msu.edu" "HTTP" permit
+set policy id 5
+set dst-address "AMAGLOBALSIG.bus"
+set dst-address "ciber-web.bus"
+set dst-address "ciber.bus"
+set dst-address "ciber1.176.bus"
+set dst-address "ciber1.182.bus"
+set dst-address "ciber1.bus"
+set dst-address "CIBER2.bus"
+set dst-address "DEV.bus"
+set dst-address "global-edge.bus"
+set dst-address "global.bus"
+set dst-address "hc-ms-media"
+set dst-address "hc-ms-web"
+set dst-address "ibc-dev.150.bus"
+set dst-address "MBA1.bus"
+set dst-address "MBAEMAIL.bus"
+set dst-address "MSU-CIBER.bus"
+set dst-address "neptune.133.bus"
+set dst-address "neptune.134.bus"
+set dst-address "neptune.201.bus"
+set dst-address "neptune.207.bus"
+set dst-address "neptune.227.bus"
+set dst-address "neptune.231.bus"
+set dst-address "neptune.bus"
+set dst-address "NEPTUNE02-204"
+set dst-address "neptune02.bus"
+set dst-address "Neptune3.bus.msu.edu"
+set dst-address "web1.bus"
+set dst-address "WEBLP1.bus"
+set dst-address "weblp2.bus"
+set dst-address "weblp4.bus"
+set dst-address "weblt1.bus"
+set dst-address "webwp1.bus.msu.edu"
+set dst-address "autodiscoverredirect-bus"
+set service "HTTPS"
+set policy id 9 from "bcc-u" to "bcc-srv"  "Any" "DEV.bus" "FTP" permit
+set policy id 9
+set dst-address "neptune02.bus"
+set service "tcp-50000-50999"
+set policy id 6 from "bcc-u" to "bcc-srv"  "Any" "ciber.bus" "SMTP" permit
+set policy id 6 disable
+set policy id 6
+set dst-address "MSU-CIBER.bus"
+set service "tcp-32000-32001"
+set policy id 34 from "bcc-u" to "bcc-srv"  "Any" "barracuda.bus" "SMTP" permit
+set policy id 34
+set dst-address "barracuda1.bus"
+set policy id 11 from "bcc-u" to "bcc-srv"  "Any" "barracuda.bus" "SSH" permit
+set policy id 11
+set dst-address "searchglobal.bus"
+set policy id 12 from "bcc-u" to "bcc-srv"  "Any" "jupiter.bus" "tcp/5000-5999" permit
+set policy id 12
+set policy id 37 from "bcc-u" to "bcc-srv"  "Any" "jupiter.bus" "FTP" permit
+set policy id 37
+set policy id 20 from "bcc-u" to "bcc-srv"  "Any" "mail.bus.msu.edu" "HTTP" permit
+set policy id 20
+set service "HTTPS"
+set service "IMAPS"
+set service "POP3S"
+set service "SMTPS"
+set policy id 21 from "bcc-u" to "bcc-srv"  "Campus-Mail" "relay.bus.msu.edu" "SMTP" permit
+set policy id 21
+set src-address "HC-UC-ADM-NET"
+set dst-address "mail.bus.msu.edu"
+set policy id 32 from "bcc-u" to "bcc-srv"  "Campus" "CSM1.bus" "HTTP" permit
+set policy id 32
+set dst-address "CSM2.bus"
+set service "HTTPS"
+set service "SMB"
+set policy id 38 from "bcc-u" to "bcc-srv"  "Any" "CSM1.bus" "tcp-8530-8531" permit
+set policy id 38
+set dst-address "CSM2.bus"
+set policy id 24 from "bcc-u" to "bcc-srv"  "HC_GBL_KC" "Any" "Rdesktop" permit
+set policy id 24
+set policy id 19 from "bcc-u" to "bcc-srv"  "Campus" "AV3.bus" "HTTPS" permit
+set policy id 19
+set service "SMB"
+set service "netbios-ns"
+set policy id 23 from "bcc-u" to "bcc-srv"  "CampusVPN.Staff.Pulse.MSUIT" "itsnas.bus" "SMB" permit
+set policy id 23
+set src-address "CampusVPN.Staff.Pulse.NetID"
+set src-address "CampusVPN.Student.Pulse.Undergrad"
+set src-address "HC_GBL_KC"
+set policy id 63 from "bcc-u" to "bcc-wks"  "Campus" "lear-e66-camsrv.bus" "HTTP" permit log count
+set policy id 63
+set service "HTTPS"
+set service "Rdesktop"
+set service "RTSP-ALL"
+set policy id 17 from "bcc-u" to "bcc-srv"  "Qualtrics" "relay.bus.msu.edu" "SMTP" permit
+set policy id 17
+set service "SMTP-Submission"
+set service "SMTPS"
+set policy id 58 from "bcc-u" to "bcc-srv"  "CommvaultServers" "Any" "Commvault" permit log count
+set policy id 58
+set policy id 210 from "bcc-u" to "bcc-srv"  "Any" "HC-JONAS-WEB2.bus.msu.edu" "TCP_90" permit
+set policy id 210
+set policy id 212 from "bcc-u" to "bcc-srv"  "35.9.112.0" "HC-JONAS2.bus.msu.edu" "SMB" permit
+set policy id 212
+set src-address "EDC-1"
+set src-address "Uclub"
+set src-address "Uclub-DHCP"
+set service "SQL 1433-1434"
+set policy id 213 from "bcc-u" to "bcc-srv"  "CampusVPN.Staff.Pulse.NetID" "HC-JONAS2.bus.msu.edu" "Rdesktop" permit
+set policy id 213
+set service "SMB"
+set service "SQL 1433-1434"
+set policy id 214 from "bcc-u" to "bcc-srv"  "Uclub" "HC-JONAS2.bus.msu.edu" "FTP" permit
+set policy id 214
+set policy id 211 from "bcc-u" to "bcc-srv"  "ANR-Avamar" "Any" "Avamar-Backups" permit
+set policy id 211
+set policy id 1 from "bcc-u" to "bcc-srv"  "Any" "Any" "ANY" deny log count
+set policy id 1
+set policy id 43 from "bcc-u" to "bcc-wks"  "CampusVPN.Staff.Pulse.Broad" "Any" "ANY" permit
+set policy id 43
+set policy id 47 from "bcc-u" to "bcc-wks"  "CampusVPN.Staff.Pulse.NetID" "Any" "Rdesktop" permit
+set policy id 47
+set src-address "vpn.itservices.msu.edu"
+set policy id 28 from "bcc-u" to "bcc-wks"  "Any" "IBC-SVN" "HTTP" permit
+set policy id 28
+set dst-address "lear-e66-camsrv.bus"
+set service "HTTPS"
+set policy id 36 from "bcc-u" to "bcc-wks"  "Any" "Lear_VC1" "H.323" permit
+set policy id 36
+set dst-address "Lear_VC2"
+set service "MS-LDAP"
+set service "MS-LDAPS"
+set service "port-3230-3235"
+set service "tcp-1503"
+set service "tcp-1731"
+set service "udp-1718-1719"
+set policy id 207 from "bcc-u" to "bcc-wks"  "Campus-Wireless" "35.9.193.3" "HTTP" permit
+set policy id 207
+set dst-address "35.9.195.199"
+set dst-address "35.9.195.218"
+set dst-address "35.9.195.219"
+set service "HTTPS"
+set service "LDAP-3268"
+set service "SMB-Office Internal"
+set service "streaming-8080"
+set service "TCP-1041"
+set service "TCP-1688"
+set service "TCP-19996"
+set service "TCP-31865"
+set service "TCP-389"
+set service "TCP-515"
+set service "UDP_1047-1049"
+set policy id 31 from "bcc-u" to "bcc-wks"  "Any" "Any" "ANY" deny log count
+set policy id 31
