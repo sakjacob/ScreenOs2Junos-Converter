@@ -13,6 +13,7 @@ addresses = []
 addressSets = dict()
 policies = []
 applications = []
+applicationSets = []
 
 class Policy:
     def __init__(self):
@@ -43,11 +44,17 @@ class Address:
 
 class Application:
     def __init__(self):
-       self.id = 0 
+       self.mID = 0 
        self.mAppName = ""
        self.mSourceRange = ""
        self.mDestRange = ""
        self.mProtocol = []
+
+class ApplicationSet:
+    def __init__(self):
+       self.mAppName = ""
+       self.mProtocol = []
+
 
 def Convert(edit_Filename):
     lSystem = input("Please type in the name of the logical system you would like to use: \n")
@@ -69,20 +76,23 @@ def Convert(edit_Filename):
         application = False
         address = False
         addressSet = False
+        applicationSet = False
 
         splitLine = shlex.split(line)
-
-        if splitLine[1] == "address":
-            address = True
-        elif splitLine[1] == "group" and splitLine[2] == "address":
-            addressSet = True
-        elif splitLine[1] == "policy":
-            policy = True
-        elif splitLine[1] == "service":
-            application = True
-        else:
-            print("\nFailure to convert line: ")
-            print(line)
+        if len(splitLine) > 2:
+            if splitLine[1] == "address":
+                address = True
+            elif splitLine[1] == "group" and splitLine[2] == "address":
+                addressSet = True
+            elif splitLine[1] == "group" and splitLine[2] == "service":
+                applicationSet = True
+            elif splitLine[1] == "policy":
+                policy = True
+            elif splitLine[1] == "service":
+                application = True
+            else:
+                print("\nFailure to convert line: ")
+                print(line)
         # for key in splitLine:
         #     if key == "policy" and len(splitLine) > 4: # determines what type of line it is editing
         #         policy = True
@@ -172,15 +182,25 @@ def Convert(edit_Filename):
             else:
                 print("\nFailure to convert line: ")
                 print(line)
-        elif application == True:
+        elif application == True and len(splitLine) > 3:
             application = Application()
             for app in applications: # make sure app names are differant (ie. appname != appname_1)
                 if app.mAppName == splitLine[2]:
                     app.mID += 1
+            application.mAppName = splitLine[2]
             application.mProtocol = splitLine[4]
             application.mSourceRange = splitLine[6]
             application.mDestRange = splitLine[8]
             applications.append(application)
+        elif applicationSet == True:
+            applicationSet = ApplicationSet()
+            applicationSet.mAppName = splitLine[3]
+            if len(splitLine) == 6:
+                if splitLine[4] == "add":
+                    applicationSet.mProtocol.append(splitLine[5])
+                    applicationSets.append(applicationSet)
+            
+
     file.close()
 
     new_name = "" # This will write the name of the file in srx.config style
@@ -210,11 +230,15 @@ def Convert(edit_Filename):
 
     for appLine in applications:
         if appLine.mID != 0: # if this is the first app name it shouldnt have an id at the end (ie. AppleRDP_0 is a no)
-            output = "set applications application " + appLine.mAppName + " term " + appLine.mAppName + "_" + appLine.mID + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange
+            output = "set logical-systems " + lSystem +" applications application " + appLine.mAppName + " term " + appLine.mAppName + "_" + str(appLine.mID) + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange + "\n"
         else:
-            output = "set applications application " + appLine.mAppName + " term " + appLine.mAppName + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange
+            output = "set logical-systems " + lSystem +" applications application " + appLine.mAppName + " term " + appLine.mAppName + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange + "\n"
+        fp_dst.write(output)
+    for appLine in applicationSets:
+        output = "set applications application-set " + appLine.mAppName + " application " + appLine.mAppName + " application " + appLine.mProtocol[0] + "\n"
         fp_dst.write(output)
 
+    fp_dst.close()
 if __name__ == "__main__":
     edit_Filename = input("Please type the filename you would like to convert with the file extension (i.e. file.txt): \n")
     Convert(edit_Filename)
