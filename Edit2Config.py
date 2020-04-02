@@ -105,6 +105,8 @@ def Convert(edit_Filename):
             policy = True
         elif splitLine[1] == "service":
             application = True
+        elif splitLine[1] == "group" and splitLine[2] == "service":
+            applicationSet = True
             
         """
         Sam policy code
