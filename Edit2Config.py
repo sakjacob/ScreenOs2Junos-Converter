@@ -244,12 +244,15 @@ def Convert(edit_Filename):
             fp_dst.write(output)
         fp_dst.write(beginning + " then " + IterPolicy.mAction + '\n')
 
-    # for appLine in applications:
-    #     if appLine.mID != 0: # if this is the first app name it shouldnt have an id at the end (ie. AppleRDP_0 is a no)
-    #         output = "set applications application " + appLine.mAppName + " term " + appLine.mAppName + "_" + appLine.mID + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange
-    #     else:
-    #         output = "set applications application " + appLine.mAppName + " term " + appLine.mAppName + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange
-    #     fp_dst.write(output)
+    for appLine in applications:
+        if appLine.mID != 0: # if this is the first app name it shouldnt have an id at the end (ie. AppleRDP_0 is a no)
+            output = "set logical-systems " + lSystem +" applications application " + appLine.mAppName + " term " + appLine.mAppName + "_" + str(appLine.mID) + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange + "\n"
+        else:
+            output = "set logical-systems " + lSystem +" applications application " + appLine.mAppName + " term " + appLine.mAppName + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange + "\n"
+        fp_dst.write(output)
+    for appLine in applicationSets:
+        output = "set applications application-set " + appLine.mAppName + " application " + appLine.mAppName + " application " + appLine.mProtocol[0] + "\n"
+        fp_dst.write(output)
     print("Number of failed lines: ",failedLines)
 
 if __name__ == "__main__":
