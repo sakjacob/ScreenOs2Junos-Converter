@@ -188,15 +188,16 @@ def Convert(edit_Filename):
             else:
                 print("\nFailure to convert line: ")
                 print(line)
-        # elif application == True:
-        #     application = Application()
-        #     for app in applications: # make sure app names are differant (ie. appname != appname_1)
-        #         if app.mAppName == splitLine[2]:
-        #             app.mID += 1
-        #     application.mProtocol = splitLine[4]
-        #     application.mSourceRange = splitLine[6]
-        #     application.mDestRange = splitLine[8]
-        #     applications.append(application)
+        elif application == True and len(splitLine) > 3:
+            application = Application()
+            for app in applications: # make sure app names are differant (ie. appname != appname_1)
+                if app.mAppName == splitLine[2]:
+                    app.mID += 1
+            application.mAppName = splitLine[2]
+            application.mProtocol = splitLine[4]
+            application.mSourceRange = splitLine[6]
+            application.mDestRange = splitLine[8]
+            applications.append(application)
         else:
             print("\nFailure to convert line: ")
             print(line)
