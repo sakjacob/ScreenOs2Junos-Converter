@@ -198,6 +198,13 @@ def Convert(edit_Filename):
             application.mSourceRange = splitLine[6]
             application.mDestRange = splitLine[8]
             applications.append(application)
+        elif applicationSet == True:
+            applicationSet = ApplicationSet()
+            applicationSet.mAppName = splitLine[3]
+            if len(splitLine) == 6:
+                if splitLine[4] == "add":
+                    applicationSet.mProtocol.append(splitLine[5])
+                    applicationSets.append(applicationSet)
         else:
             print("\nFailure to convert line: ")
             print(line)
