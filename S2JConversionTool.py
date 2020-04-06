@@ -6,7 +6,7 @@ For more information on the conversion, see the files "Orig2Edit.py"
 and "Edit2Config.py"
 
 Author: Jake Sak
-Last editted: 3-19-20
+Last editted: 4-6-20
 
 to do:
 * remove temporary files like edit
@@ -15,6 +15,7 @@ to do:
 * add required.txt to repo so users can download required extensions
 * update readme with tutorial on how to download and use program
 * have user select a save location that will 
+* add instructions / help button
 """
 
 import Orig2Edit
