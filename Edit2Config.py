@@ -17,6 +17,7 @@ addresses = []
 addressSets = dict()
 policies = dict()
 applications = []
+applicationSets =[]
 
 
 
@@ -56,6 +57,12 @@ class Application:
        self.mDestRange = ""
        self.mProtocol = []
 
+
+class ApplicationSet:
+    def __init__(self):
+       self.mAppName = ""
+       self.mProtocol = []
+
 def Convert(edit_Filename, save_filename, tkinter_object):
     failedLines = 0
     #lSystem = input("Please type in the name of the logical system you would like to use: \n")
@@ -87,6 +94,7 @@ def Convert(edit_Filename, save_filename, tkinter_object):
         application = False
         address = False
         addressSet = False
+        applicationSet = False
 
         splitLine = shlex.split(line)
         sp_index = 0 # index of arg in splitline
@@ -102,28 +110,8 @@ def Convert(edit_Filename, save_filename, tkinter_object):
             policy = True
         elif splitLine[1] == "service":
             application = True
-            
-        """
-        Sam policy code
-        """
-        # if policy == True:
-        #     pol = Policy()
-        #     for option in range(len(splitLine)): # get the components of the line and store them in an object
-        #         if splitLine[option] == "id":
-        #             pol.mID = splitLine[option + 1]
-        #         if splitLine[option] == "from":
-        #             pol.mFromZone = splitLine[option + 1]
-        #         if splitLine[option] == "to":
-        #             pol.mToZone = splitLine[option + 1]
-        #             if splitLine[option + 2] == "Any": # "any" is case sensitive, make corrections
-        #                 pol.mSrcAdress.append("any")
-        #             else:
-        #                 pol.mSrcAdress.append(splitLine[option + 2].replace(" ","-")) # replaces spaces with dashes
-        #             pol.mDestAdress.append(splitLine[option + 3])
-        #             pol.mApplication = splitLine[option + 4]
-        #             pol.mAction = splitLine[option + 5]
-        #             break
-        #     policies.append(pol)
+        elif splitLine[1] == "group" and splitLine[2] == "service":
+            applicationSet = True
 
         if policy:
             if len(splitLine) >= 12: # new policy line
@@ -192,15 +180,23 @@ def Convert(edit_Filename, save_filename, tkinter_object):
             else:
                 print("\nFailure to convert line: ")
                 print(line)
-        # elif application == True:
+        # elif application == True and len(splitLine) > 3:
         #     application = Application()
         #     for app in applications: # make sure app names are differant (ie. appname != appname_1)
         #         if app.mAppName == splitLine[2]:
         #             app.mID += 1
+        #     application.mAppName = splitLine[2]
         #     application.mProtocol = splitLine[4]
         #     application.mSourceRange = splitLine[6]
         #     application.mDestRange = splitLine[8]
         #     applications.append(application)
+        elif applicationSet == True:
+            applicationSet = ApplicationSet()
+            applicationSet.mAppName = splitLine[3]
+            if len(splitLine) == 6:
+                if splitLine[4] == "add":
+                    applicationSet.mProtocol.append(splitLine[5])
+                    applicationSets.append(applicationSet)
         else:
             print("\nFailure to convert line: ")
             print(line)
@@ -247,12 +243,15 @@ def Convert(edit_Filename, save_filename, tkinter_object):
             fp_dst.write(output)
         fp_dst.write(beginning + " then " + IterPolicy.mAction + '\n')
 
-    # for appLine in applications:
-    #     if appLine.mID != 0: # if this is the first app name it shouldnt have an id at the end (ie. AppleRDP_0 is a no)
-    #         output = "set applications application " + appLine.mAppName + " term " + appLine.mAppName + "_" + appLine.mID + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange
-    #     else:
-    #         output = "set applications application " + appLine.mAppName + " term " + appLine.mAppName + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange
-    #     fp_dst.write(output)
+    for appLine in applications:
+        if appLine.mID != 0: # if this is the first app name it shouldnt have an id at the end (ie. AppleRDP_0 is a no)
+            output = "set logical-systems " + lSystem +" applications application " + appLine.mAppName + " term " + appLine.mAppName + "_" + str(appLine.mID) + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange + "\n"
+        else:
+            output = "set logical-systems " + lSystem +" applications application " + appLine.mAppName + " term " + appLine.mAppName + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange + "\n"
+        fp_dst.write(output)
+    for appLine in applicationSets:
+        output = "set applications application-set " + appLine.mAppName + " application " + appLine.mAppName + " application " + appLine.mProtocol[0] + "\n"
+        fp_dst.write(output)
     print("Number of failed lines: ",failedLines)
 
 if __name__ == "__main__":
