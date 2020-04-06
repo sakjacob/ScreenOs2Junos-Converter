@@ -23,7 +23,7 @@ To do
 import valid_subnet
 import shlex
 
-def Convert(src_str):
+def Convert(src_str, tkinter_object):
     # src_str = "C:\\Users\\sakjacob\\Desktop\\S2J\\cal\\cal-orig.txt"
     fp_src = open(src_str,"r")
     dst_str = src_str[:src_str.find(".txt")] + "-edit_tool.txt" #tool differienties this file from the examples, remove "tool" when finalized
@@ -49,7 +49,7 @@ def Convert(src_str):
                         validIPV4 = False
                     if validIPV4: # if an IPV4 line, verify subnet and IP pairing
                         lineInList = [line] # allows line (normally immutable) to be modified by called functions
-                        valid_ip = valid_subnet.ValidIPSubNetPair(arg_list[4], arg_list[5], lineInList)
+                        valid_ip = valid_subnet.ValidIPSubNetPair(arg_list[4], arg_list[5], lineInList, tkinter_object)
                         line = lineInList[0]
                         if not valid_ip:
                             continue # do not write this line

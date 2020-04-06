@@ -9,9 +9,9 @@ import math
 
 def main():
     userChoice = input("Type 1 to compare orginal to tool, 2 to compare tool to original: ")
-    tool_config = "C:\\Users\\sakjacob\\Desktop\\S2J\\ESP\\ESP-orig-srx_tool.config"
+    tool_config = "C:\\Users\\sakjacob\\Desktop\\S2J\\bcc\\bcc-orig-srx_tool.config"
     fp_tool = open(tool_config,"r")
-    orig_config = "C:\\Users\\sakjacob\\Desktop\\S2J\\ESP\\ESP-srx.config"
+    orig_config = "C:\\Users\\sakjacob\\Desktop\\S2J\\bcc\\bcc-srx.config"
     print(orig_config)
     fp_orig = open(orig_config,"r")
 
@@ -23,7 +23,7 @@ def main():
 
     if int(userChoice) == 2:
         print("Checking if lines from tool exist in the orginal.")
-        log = "C:\\Users\\sakjacob\\Desktop\\S2J\\ESP\\lines-not-in-orig.txt"
+        log = "C:\\Users\\sakjacob\\Desktop\\S2J\\bcc\\lines-not-in-orig.txt"
         fp_log = open(log, "w")
         line_num = 1
         for line in tool_lines:
@@ -35,7 +35,7 @@ def main():
         fp_log.close()
     elif int(userChoice) == 1:
         print("Checking if lines from orginal exist in the tool.")
-        log = "C:\\Users\\sakjacob\\Desktop\\S2J\\ESP\\lines-missing-in-tool.txt"
+        log = "C:\\Users\\sakjacob\\Desktop\\S2J\\bcc\\lines-missing-in-tool.txt"
         fp_log = open(log, "w")
         line_num = 1
         for line in orig_lines:

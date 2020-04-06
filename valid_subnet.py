@@ -4,10 +4,12 @@ subnet masks and prompts the user to edit
 invalid pairs.
 
 Author: Jake Sak
-Last Editted: 3-19-20
+Last Editted: 4-6-20
 """
 
 import math
+from tkinter import filedialog, simpledialog # for gui
+import tkinter as tk # for gui
 
 def findNth(search, ele, n):
     """
@@ -71,7 +73,7 @@ def OcteteComparer(ipO, subO, line):
         print("ones are not leftmost in Octete Comparer")
         return False
 
-def ValidIPSubNetPair(ipAddress, subnetMask, line):
+def ValidIPSubNetPair(ipAddress, subnetMask, line, tkinter_object):
     """
     Given a full IPV4 Address and a subnet, this function compares the two
     and makes sure they are a valid pairing.
@@ -81,6 +83,7 @@ def ValidIPSubNetPair(ipAddress, subnetMask, line):
     :param ipAddress: string
     :param subnetMask: string
     :param line: a list containing a single string which is the line being read
+    :param tkinter_object: used to gather input through a gui
     :return: bool representing if the pairing is valid. False prevents line from being written in main
     """
     try:
@@ -121,13 +124,17 @@ def ValidIPSubNetPair(ipAddress, subnetMask, line):
                         continue
                     else:
                         print("\nInvalid IP subnet pair detected on the line: ",line[0])
-                        userChoice = int(input("type 1 to edit IP, 2 to edit subnet, or anything else to delete line: "))
+                        error_str = "Invalid IP subnet pair detected on the line: \n" + line[0] + "\n" + "type 1 to edit IP, 2 to edit subnet, or anything else to delete line: "
+                        userChoice = simpledialog.askinteger("Modify IP/subnet pair", error_str, parent = tkinter_object)
                         if (userChoice == 1): # edit IP
-                            new_ip = input("input the new ip in the format of 4 octetes seperated by periods: ")
+                            ip_str = "input the new ip in the format of 4 octetes seperated by periods"
+                            new_ip = simpledialog.askstring("Modify IP/subnet pair", ip_str, parent = tkinter_object)
+
                             line[0] = line[0].replace(ipAddress,new_ip) # swap in new ip for old ip
                             return True
                         elif (userChoice == 2): # edit subnet
-                            new_subnet = input("input the new subnet in the format of 4 octetes seperated by periods: ")
+                            sub_str = "input the new subnet in the format of 4 octetes seperated by periods"
+                            new_subnet = simpledialog.askstring("Modify IP/subnet pair", sub_str, parent = tkinter_object)
                             line[0] = line[0].replace(subnetMask,new_subnet) # swap in new ip for old ip
                             return True
                         return False

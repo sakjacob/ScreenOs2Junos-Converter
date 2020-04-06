@@ -10,6 +10,8 @@ import shlex
 import fileinput
 import os
 import sys
+from tkinter import filedialog, simpledialog
+import tkinter as tk
 
 addresses = []
 addressSets = dict()
@@ -54,20 +56,22 @@ class Application:
        self.mDestRange = ""
        self.mProtocol = []
 
-def Convert(edit_Filename):
+def Convert(edit_Filename, save_filename, tkinter_object):
     failedLines = 0
-    lSystem = input("Please type in the name of the logical system you would like to use: \n")
-
-    if lSystem == "" or edit_Filename == "": # make sure logical system gets a value, if not we don't want to create a bad config 
-        raise AssertionError("No logical system name or filename input")
-
-    logicalSystemLine = ["set", "logical-systems", str(lSystem), "security"] # covers adresses and policies
-    applicationsLine = ["set", "applications", "application"] # covers applications
+    #lSystem = input("Please type in the name of the logical system you would like to use: \n")
+    lSystem = simpledialog.askstring("Logical System","Please type in the name of the logical system you would like to use: \n", parent = tkinter_object)
 
     try:
         file = open(edit_Filename, "r")
     except:
         raise AssertionError("Cannot open file")
+
+    if lSystem == "" or edit_Filename == "": # make sure logical system gets a value, if not we don't want to create a bad config 
+        raise AssertionError("No logical system name or filename input")
+
+    #fp_review = open()
+
+
 
     PolicyID = 0 
 
@@ -203,12 +207,12 @@ def Convert(edit_Filename):
             failedLines += 1
     file.close()
 
-    new_name = "" # This will write the name of the file in srx.config style
-    dst_str = ""
-    for i in range(len(edit_Filename)):
-        if edit_Filename[i] == "-":
-            dst_str = edit_Filename[0:i] + "-srx_tool.config"
-    fp_dst = open(dst_str,"w")
+    # new_name = "" # This will write the name of the file in srx.config style
+    # dst_str = ""
+    # for i in range(len(edit_Filename)):
+    #     if edit_Filename[i] == "-":
+    #         dst_str = edit_Filename[0:i] + "-srx_tool.config"
+    fp_dst = open(save_filename,"w")
 
     for addyLine in addresses: # write addresses first
         if addyLine.mDnsName: # dns name must be written between name and address
@@ -252,5 +256,6 @@ def Convert(edit_Filename):
     print("Number of failed lines: ",failedLines)
 
 if __name__ == "__main__":
+    input("Warning, you are not running the full conversion program, enter to proceed")
     edit_Filename = input("Please type the filename you would like to convert with the file extension (i.e. file.txt): \n")
     Convert(edit_Filename)
