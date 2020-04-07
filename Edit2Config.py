@@ -51,7 +51,7 @@ class Address:
 
 class Application:
     def __init__(self):
-       self.id = 0 
+       self.mID = 0 
        self.mAppName = ""
        self.mSourceRange = ""
        self.mDestRange = ""
@@ -180,16 +180,16 @@ def Convert(edit_Filename, save_filename, tkinter_object):
             else:
                 print("\nFailure to convert line: ")
                 print(line)
-        # elif application == True and len(splitLine) > 3:
-        #     application = Application()
-        #     for app in applications: # make sure app names are differant (ie. appname != appname_1)
-        #         if app.mAppName == splitLine[2]:
-        #             app.mID += 1
-        #     application.mAppName = splitLine[2]
-        #     application.mProtocol = splitLine[4]
-        #     application.mSourceRange = splitLine[6]
-        #     application.mDestRange = splitLine[8]
-        #     applications.append(application)
+        elif application == True and len(splitLine) >= 8:
+            application = Application()
+            for app in applications: # make sure app names are differant (ie. appname != appname_1)
+                if app.mAppName == splitLine[2]:
+                    app.mID += 1
+            application.mAppName = splitLine[2]
+            application.mProtocol = splitLine[4]
+            application.mSourceRange = splitLine[6]
+            application.mDestRange = splitLine[8]
+            applications.append(application)
         elif applicationSet == True:
             applicationSet = ApplicationSet()
             applicationSet.mAppName = splitLine[3]
