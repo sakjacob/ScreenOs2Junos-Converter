@@ -15,12 +15,12 @@ to do:
 * add required.txt to repo so users can download required extensions
 * update readme with tutorial on how to download and use program
 * have user select a save location that will 
-* add instructions / help button
 """
 
 import Orig2Edit
 import Edit2Config
 from tkinter import filedialog
+from tkinter import *
 import tkinter as tk
 
 class Application(tk.Frame):
@@ -38,21 +38,31 @@ class Application(tk.Frame):
         self.ScreenOs = tk.Button(self)
         self.ScreenOs["text"] = "Select ScreenOS config"
         self.ScreenOs["command"] = self.Update_SOS
-        self.ScreenOs.pack(side="top")
+        self.ScreenOs.grid(column=0, row=0)
+        #self.ScreenOs.pack(side="top")
+        self.Screen_lbl = Label(self, text="Nothing selected")
+        self.Screen_lbl.grid(column=1, row = 0)
 
+        self.dst_disclaimer = Label(self, text="Save to an empty folder to prevent \n overwrittening identical filenames", font=("Arial Bold", 10))
+        self.dst_disclaimer.grid(column = 0, row = 1)
         self.dst = tk.Button(self)
-        self.dst["text"] = "Save new Junos \n config as?"
+        self.dst["text"] = "Select Directory to save \n new config and other outputs"
         self.dst["command"] = self.Update_dst
-        self.dst.pack(side="top")
+        self.dst.grid(column = 0, row = 2)
+        self.dst_lbl = Label(self, text="Nothing selected")
+        self.dst_lbl.grid(column=1, row = 2)
+        #self.dst.pack(side="top")
+
+        
 
         self.run = tk.Button(self)
         self.run["text"] = "Start conversion"
         self.run["command"] = self.Run
-        self.run.pack(side="top")
+        self.run.grid(row=3)
 
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
-        self.quit.pack(side="bottom")
+        self.quit.grid(row=4)
 
 
     def Update_SOS(self):
@@ -60,13 +70,15 @@ class Application(tk.Frame):
         if temp is not None:
             self.SOS_bool = True
             self.SOS_path = temp
+            self.Screen_lbl["text"] = temp
             print(temp)
 
     def Update_dst(self):
-        temp = tk.filedialog.asksaveasfilename()
-        if temp is not None:
+        temp = tk.filedialog.askdirectory()
+        if temp != "":
             self.dst_bool = True
             self.dst_path = temp
+            self.dst_lbl["text"] = temp
             print(temp)
 
     def Run(self):
@@ -79,6 +91,8 @@ class Application(tk.Frame):
             print("Nope!")
 
 root = tk.Tk()
+root.geometry('450x200')
+root.title("S2J Conversion Tool")
 app = Application(master=root)
 app.mainloop()
 

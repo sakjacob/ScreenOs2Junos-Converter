@@ -63,7 +63,7 @@ class ApplicationSet:
        self.mAppName = ""
        self.mProtocol = []
 
-def Convert(edit_Filename, save_filename, tkinter_object):
+def Convert(edit_Filename, save_directory, tkinter_object):
     failedLines = 0
     #lSystem = input("Please type in the name of the logical system you would like to use: \n")
     lSystem = simpledialog.askstring("Logical System","Please type in the name of the logical system you would like to use: \n", parent = tkinter_object)
@@ -209,7 +209,7 @@ def Convert(edit_Filename, save_filename, tkinter_object):
     # for i in range(len(edit_Filename)):
     #     if edit_Filename[i] == "-":
     #         dst_str = edit_Filename[0:i] + "-srx_tool.config"
-    fp_dst = open(save_filename,"w")
+    fp_dst = open(save_directory+"\\junos.config","w")
 
     for addyLine in addresses: # write addresses first
         if addyLine.mDnsName: # dns name must be written between name and address
