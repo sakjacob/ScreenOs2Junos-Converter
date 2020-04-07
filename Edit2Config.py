@@ -100,6 +100,7 @@ def Convert(edit_Filename, save_filename, tkinter_object):
         sp_index = 0 # index of arg in splitline
         for arg in splitLine: # args do not have spaces in junos
             splitLine[sp_index] = arg.replace(" ","-")
+            splitLine[sp_index] = arg.replace("_","-")
             sp_index += 1
 
         if splitLine[1] == "address":
