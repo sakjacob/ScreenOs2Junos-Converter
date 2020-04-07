@@ -14,7 +14,9 @@ to do:
 * prompt for desired name of resulting config
 * add required.txt to repo so users can download required extensions
 * update readme with tutorial on how to download and use program
-* have user select a save location that will 
+* have a pop up after a config complete which informs user of manual review file
+and where config is saved. 
+    "Make sure to view the manual review file and add any necassary changes to the config saved at ___"
 """
 
 import Orig2Edit

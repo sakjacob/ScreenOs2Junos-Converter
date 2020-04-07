@@ -76,8 +76,6 @@ def Convert(edit_Filename, save_directory, tkinter_object):
     if lSystem == "" or edit_Filename == "": # make sure logical system gets a value, if not we don't want to create a bad config 
         raise AssertionError("No logical system name or filename input")
 
-    #fp_review = open()
-
 
 
     PolicyID = 0 
@@ -87,6 +85,11 @@ def Convert(edit_Filename, save_directory, tkinter_object):
     predetermined_policies = set()
     for policy in policy_fp:
         predetermined_policies.add(policy.replace('\n',""))
+
+    policy_fp = open(os.path.join(sys.path[0], "predefined-service_groups.txt"), "r") 
+    predetermined_policie_groups = set()
+    for group in policy_fp:
+        predetermined_policie_groups.add(group.replace('\n',""))
 
     for line in file:
         
@@ -204,55 +207,67 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             failedLines += 1
     file.close()
 
-    # new_name = "" # This will write the name of the file in srx.config style
-    # dst_str = ""
-    # for i in range(len(edit_Filename)):
-    #     if edit_Filename[i] == "-":
-    #         dst_str = edit_Filename[0:i] + "-srx_tool.config"
-    fp_dst = open(save_directory+"\\junos.config","w")
+    # create output files
+    fp_manual_review = open(save_directory+"\\manual-review.txt","w")
+    fp_config = open(save_directory+"\\junos.config","w")
 
     for addyLine in addresses: # write addresses first
         if addyLine.mDnsName: # dns name must be written between name and address
             output = "set logical-systems " + lSystem + " security address-book global address " + addyLine.mDomain + " dns-name " + addyLine.mAddress + "\n"
         else:
             output = "set logical-systems " + lSystem + " security address-book global address " + addyLine.mDomain + " " + addyLine.mAddress + "\n"
-        fp_dst.write(output)
+        fp_config.write(output)
 
     # next write address book lines
     for addygroup in addressSets: # iterate address groups 
         for addy in addressSets[addygroup]: # write each member of respective group
             output = "set logical-systems " + lSystem + " security address-book global address-set " + addygroup + " address " + addy + "\n"
-            fp_dst.write(output)
+            fp_config.write(output)
 
+    review_policies = [] # a list of policies that require manual review. Later written to review file
     for ID in policies:
         # front portion of every line
         IterPolicy = policies[ID] 
         beginning = "set logical-systems " + lSystem + " security policies from-zone " + IterPolicy.mFromZone + " to-zone " + IterPolicy.mToZone + " policy " + str(IterPolicy.mID)
         for src in IterPolicy.mSrcAdress:
             output = beginning + " match source-address " + src + '\n'
-            fp_dst.write(output)
+            fp_config.write(output)
         for dst in IterPolicy.mDestAdress:
             output = beginning + " match destination-address " + dst + '\n'
-            fp_dst.write(output)
+            fp_config.write(output)
         for app in IterPolicy.mApplication:
             if app.lower() in predetermined_policies: # add "junos-" to front of app 
                 output = beginning + " match application junos-" + app.lower() + '\n'
+            elif app.lower() in predetermined_policie_groups: # write to manual review file
+                review_policies.append("policy ID: "+IterPolicy.mID+" junos-group: "+app.lower())
             elif app.lower() == "any": # get any to use consistent case
                 output = beginning + " match application " + app.lower() + '\n'
             else:
                 output = beginning + " match application " + app + '\n'
-            fp_dst.write(output)
-        fp_dst.write(beginning + " then " + IterPolicy.mAction + '\n')
+            fp_config.write(output)
+        fp_config.write(beginning + " then " + IterPolicy.mAction + '\n')
+
+    review_instructions ="""
+-----------------------------------------------------------------------------------------------
+Below is a list of junos-predetermined-groups that need to be manually converted into policies.
+* each group usually converts to multiple policies
+* a template is provided with each group. Once the user determines the policies this group
+contains, the user can copy and paste "template + policy" for each individual policy. 
+-----------------------------------------------------------------------------------------------
+"""
+    fp_manual_review.write(review_instructions)    
+    for group in review_policies: # junos-groups need to be manually converted
+        fp_manual_review.write(group)
 
     for appLine in applications:
         if appLine.mID != 0: # if this is the first app name it shouldnt have an id at the end (ie. AppleRDP_0 is a no)
             output = "set logical-systems " + lSystem +" applications application " + appLine.mAppName + " term " + appLine.mAppName + "_" + str(appLine.mID) + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange + "\n"
         else:
             output = "set logical-systems " + lSystem +" applications application " + appLine.mAppName + " term " + appLine.mAppName + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange + "\n"
-        fp_dst.write(output)
+        fp_config.write(output)
     for appLine in applicationSets:
         output = "set applications application-set " + appLine.mAppName + " application " + appLine.mAppName + " application " + appLine.mProtocol[0] + "\n"
-        fp_dst.write(output)
+        fp_config.write(output)
     print("Number of failed lines: ",failedLines)
 
 if __name__ == "__main__":
