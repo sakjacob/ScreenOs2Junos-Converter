@@ -36,6 +36,11 @@ class Policy:
         if self.mID == pol2.mID:
             return True
 
+class GroupPolicy:
+    def __init__(self):
+        self.template = ""
+        self.group = ""
+
 class Address:
     def __init__(self):
        self.mAddress = ""
@@ -63,6 +68,7 @@ class ApplicationSet:
        self.mAppName = ""
        self.mProtocol = []
 
+
 def Convert(edit_Filename, save_directory, tkinter_object):
     failedLines = 0
     #lSystem = input("Please type in the name of the logical system you would like to use: \n")
@@ -86,9 +92,9 @@ def Convert(edit_Filename, save_directory, tkinter_object):
     for policy in policy_fp:
         predetermined_policies.add(policy.replace('\n',""))
 
-    policy_fp = open(os.path.join(sys.path[0], "predefined-service_groups.txt"), "r") 
+    group_fp = open(os.path.join(sys.path[0], "predefined-service_groups.txt"), "r") 
     predetermined_policie_groups = set()
-    for group in policy_fp:
+    for group in group_fp:
         predetermined_policie_groups.add(group.replace('\n',""))
 
     for line in file:
@@ -239,7 +245,10 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             if app.lower() in predetermined_policies: # add "junos-" to front of app 
                 output = beginning + " match application junos-" + app.lower() + '\n'
             elif app.lower() in predetermined_policie_groups: # write to manual review file
-                review_policies.append("policy ID: "+IterPolicy.mID+" junos-group: "+app.lower())
+                new_group = GroupPolicy
+                new_group.template = beginning + " match application"
+                new_group.group = app.lower()
+                review_policies.append(new_group)
             elif app.lower() == "any": # get any to use consistent case
                 output = beginning + " match application " + app.lower() + '\n'
             else:
@@ -257,7 +266,7 @@ contains, the user can copy and paste "template + policy" for each individual po
 """
     fp_manual_review.write(review_instructions)    
     for group in review_policies: # junos-groups need to be manually converted
-        fp_manual_review.write(group)
+        fp_manual_review.write("\nTemplate: " + group.template +"\nGroup Name: "+group.group +"\n")
 
     for appLine in applications:
         if appLine.mID != 0: # if this is the first app name it shouldnt have an id at the end (ie. AppleRDP_0 is a no)
