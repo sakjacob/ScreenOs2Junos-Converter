@@ -245,7 +245,7 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             if app.lower() in predetermined_policies: # add "junos-" to front of app 
                 output = beginning + " match application junos-" + app.lower() + '\n'
             elif app.lower() in predetermined_policie_groups: # write to manual review file
-                new_group = GroupPolicy
+                new_group = GroupPolicy()
                 new_group.template = beginning + " match application"
                 new_group.group = app.lower()
                 review_policies.append(new_group)
