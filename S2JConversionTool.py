@@ -17,6 +17,7 @@ to do:
 * have a pop up after a config complete which informs user of manual review file
 and where config is saved. 
     "Make sure to view the manual review file and add any necassary changes to the config saved at ___"
+* download and run tool on another computer
 """
 
 import Orig2Edit

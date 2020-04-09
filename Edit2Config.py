@@ -109,7 +109,7 @@ def Convert(edit_Filename, save_directory, tkinter_object):
         sp_index = 0 # index of arg in splitline
         for arg in splitLine: # args do not have spaces in junos
             splitLine[sp_index] = arg.replace(" ","-")
-            splitLine[sp_index] = arg.replace("_","-")
+            #splitLine[sp_index] = arg.replace("_","-")
             sp_index += 1
 
         if splitLine[1] == "address":
@@ -194,7 +194,7 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             application = Application()
             for app in applications: # make sure app names are differant (ie. appname != appname_1)
                 if app.mAppName == splitLine[2]:
-                    app.mID += 1
+                    application.mID += 1
             application.mAppName = splitLine[2]
             application.mProtocol = splitLine[4]
             application.mSourceRange = splitLine[6]
