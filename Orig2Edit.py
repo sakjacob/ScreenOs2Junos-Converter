@@ -35,6 +35,7 @@ def Convert(src_str, tkinter_object):
         for line in lines:
             if ("set interface" in line or "set zone" in line or "set address" in line or "set group address" in line or "set policy" in line or "set service" in line or "set src-address" in line or "set dst-address" in line or "set group service" in line):
                 line = line.replace("Any-IPv4","any")
+                line = line.replace("ICMP-ANY","icmp-all")
                 if "set address" in line:
                     arg_list = shlex.split(line)
                     if arg_list[-1] == "255.255.255.0": # previous ip needs to end with 0
