@@ -62,14 +62,14 @@ class Application(tk.Frame):
 
     def create_widgets(self):
         self.eConfig = tk.Button(self) # example config
-        self.eConfig["text"] = "Select eConfig config"
+        self.eConfig["text"] = "Select example config"
         self.eConfig["command"] = self.Update_Example
         self.eConfig.grid(column=0, row=0)
         self.e_lbl = Label(self, text="Nothing selected")
         self.e_lbl.grid(column=1, row = 0)
 
         self.tConfig = tk.Button(self) # tool config
-        self.tConfig["text"] = "Select tConfig config"
+        self.tConfig["text"] = "Select tool config"
         self.tConfig["command"] = self.Update_Tool
         self.tConfig.grid(column=0, row=1)
         self.t_lbl = Label(self, text="Nothing selected")
