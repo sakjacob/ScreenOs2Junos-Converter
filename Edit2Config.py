@@ -29,7 +29,7 @@ class Policy:
         self.mSrcAdress = []
         self.mDestAdress = []
         self.mApplication = []
-        self.mAction = ""
+        self.mAction = set()
         self.mDisabled = False
 
     def __eq__(pol2):
@@ -133,14 +133,16 @@ def Convert(edit_Filename, save_directory, tkinter_object):
                 newPolicy.mSrcAdress.append(splitLine[8])
                 newPolicy.mDestAdress.append(splitLine[9])
                 newPolicy.mApplication.append(splitLine[10])
-                newPolicy.mAction = splitLine[11]
+                for i in range(len(splitLine)-11): # sometimes multiple actions can be on one line
+                    newPolicy.mAction.add(splitLine[11+i])
+                #newPolicy.mAction.add(splitLine[11])
                 policies[newPolicy.mID] = newPolicy
             elif len(splitLine) == 4: # update current policy ID
                 if int(splitLine[3]) not in policies: #output error check
                     print("Error, new policy ID when it should already exist")
                 PolicyID = int(splitLine[3])
             elif len(splitLine) == 5 and splitLine[4] == "disable": # disable policy
-                policies[PolicyID].mDisabled = True
+                policies[int(splitLine[3])].mDisabled = True
             else:
                 print("\nUn-accounted for edge case in policy on line:")
                 print(line)
@@ -254,7 +256,11 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             else:
                 output = beginning + " match application " + app + '\n'
             fp_config.write(output)
-        fp_config.write(beginning + " then " + IterPolicy.mAction + '\n')
+        if IterPolicy.mDisabled:
+            fp_config.write("deactivate security policies from-zone " + IterPolicy.mFromZone + " to-zone " + IterPolicy.mToZone + " policy " + str(IterPolicy.mID)+'\n')
+        for action in IterPolicy.mAction:
+            if action == "permit" or action == "deny" or action == "count":
+                fp_config.write(beginning + " then " + action + '\n')
 
     review_instructions ="""
 -----------------------------------------------------------------------------------------------
