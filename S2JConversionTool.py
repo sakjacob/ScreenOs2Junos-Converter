@@ -87,7 +87,7 @@ class Application(tk.Frame):
     def Run(self):
         if self.SOS_bool and self.dst_bool:
             print("Successful run")
-            Orig2Edit.Convert(self.SOS_path, self)
+            Orig2Edit.Convert(self.SOS_path, self.dst_path, self)
             edit_FileName = self.SOS_path[:self.SOS_path.find(".txt")] + "-edit_tool.txt" 
             Edit2Config.Convert(edit_FileName,self.dst_path, self)
         else:
