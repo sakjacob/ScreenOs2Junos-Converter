@@ -30,6 +30,7 @@ def Convert(src_str, dst_folder, tkinter_object):
     print(dst_str)
     fp_dst = open(dst_str,"w")
     fp_cut = open(dst_folder + "\\cut.txt","w")
+    fp_cut.write("------Below lines were cut on purpose-------\n")
 
     lines = fp_src.readlines()
     try:

@@ -94,6 +94,9 @@ def Convert(edit_Filename, save_directory, tkinter_object):
     for group in group_fp:
         predetermined_policie_groups.add(group.replace('\n',""))
 
+    fp_cut = open((save_directory + "\\cut.txt"),"a")
+    fp_cut.write("\n------Start of lines that were cut because of failure to convert them------\n")
+
     for line in file:
         
         policy = False # these will determine what type of line we are on in the config
@@ -209,8 +212,10 @@ def Convert(edit_Filename, save_directory, tkinter_object):
         else:
             print("\nFailure to convert line: ")
             print(line)
+            fp_cut.write(line)
             failedLines += 1
     file.close()
+    fp_cut.close()
 
     # create output files
     fp_manual_review = open(save_directory+"\\manual-review.txt","w")
