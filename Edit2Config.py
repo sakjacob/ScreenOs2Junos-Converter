@@ -13,14 +13,6 @@ import sys
 from tkinter import filedialog, simpledialog
 import tkinter as tk
 
-addresses = []
-addressSets = dict()
-policies = dict()
-applications = []
-applicationSets =[]
-
-
-
 class Policy:
     def __init__(self):
         self.mID = ""
@@ -70,6 +62,11 @@ class ApplicationSet:
 
 
 def Convert(edit_Filename, save_directory, tkinter_object):
+    addresses = []
+    addressSets = dict()
+    policies = dict()
+    applications = []
+    applicationSets =[]
     failedLines = 0
     #lSystem = input("Please type in the name of the logical system you would like to use: \n")
     lSystem = simpledialog.askstring("Logical System","Please type in the name of the logical system you would like to use: \n", parent = tkinter_object)
