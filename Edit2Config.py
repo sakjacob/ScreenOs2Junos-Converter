@@ -258,6 +258,8 @@ def Convert(edit_Filename, save_directory, tkinter_object):
         for action in IterPolicy.mAction:
             if action == "permit" or action == "deny" or action == "count":
                 fp_config.write(beginning + " then " + action + '\n')
+            elif action == "log":
+                fp_config.write(beginning + " then log session-init" +'\n')
 
     review_instructions ="""
 -----------------------------------------------------------------------------------------------
