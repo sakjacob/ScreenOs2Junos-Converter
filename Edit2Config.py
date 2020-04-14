@@ -135,7 +135,6 @@ def Convert(edit_Filename, save_directory, tkinter_object):
                 newPolicy.mApplication.append(splitLine[10])
                 for i in range(len(splitLine)-11): # sometimes multiple actions can be on one line
                     newPolicy.mAction.add(splitLine[11+i])
-                #newPolicy.mAction.add(splitLine[11])
                 policies[newPolicy.mID] = newPolicy
             elif len(splitLine) == 4: # update current policy ID
                 if int(splitLine[3]) not in policies: #output error check
@@ -246,12 +245,12 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             output = beginning + " match destination-address " + dst + '\n'
             fp_config.write(output)
         for app in IterPolicy.mApplication:
-            if app.lower() in predetermined_policies: # add "junos-" to front of app 
-                output = beginning + " match application junos-" + app.lower() + '\n'
-            elif app.lower() in predetermined_policie_groups: # write to manual review file
+            if app.lower().replace(".","") in predetermined_policies: # add "junos-" to front of app 
+                output = beginning + " match application junos-" + app.lower().replace(".","") + '\n'
+            elif app.lower().replace(".","") in predetermined_policie_groups: # write to manual review file
                 new_group = GroupPolicy()
                 new_group.template = beginning + " match application"
-                new_group.group = app.lower()
+                new_group.group = app.lower().replace(".","")
                 review_policies.append(new_group)
             elif app.lower() == "any": # get any to use consistent case
                 output = beginning + " match application " + app.lower() + '\n'
