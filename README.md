@@ -5,7 +5,7 @@ Installation:
 1. Download this repository from https://github.com/sakjacob/ScreenOs2Junos-Converter
 2. Extract repository from zip file to folder of user's desire
 3. If python is not already installed, install python at https://www.python.org/
-	a. (optional) Check box to add python to path during installation. This makes running program easier
+	a. (optional) Check box to add python to path during installation. This makes running program simplier
 	*Developed on python 3.7.3 but earlier versions may work too. Tested to work on 3.8.2 as well.
 	
 Running:
