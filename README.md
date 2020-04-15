@@ -30,6 +30,6 @@ address sets/books
 Not covered by conversion tool:
 zones
 interfaces
-predfined service groups in policies. User will be notified of these lines, however
+predfined service groups in policies. User will be notified of these lines
 VPN
 Routing instances

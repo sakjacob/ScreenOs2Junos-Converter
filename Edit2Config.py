@@ -216,6 +216,9 @@ def Convert(edit_Filename, save_directory, tkinter_object):
     file.close()
     fp_cut.close()
 
+    # delete temporary files
+    os.remove(edit_Filename)
+
     # create output files
     fp_manual_review = open(save_directory+"\\manual-review.txt","w")
     fp_config = open(save_directory+"\\junos.config","w")
@@ -289,6 +292,4 @@ contains, the user can copy and paste "template + policy" for each individual po
     print("Number of failed lines: ",failedLines)
 
 if __name__ == "__main__":
-    input("Warning, you are not running the full conversion program, enter to proceed")
-    edit_Filename = input("Please type the filename you would like to convert with the file extension (i.e. file.txt): \n")
-    Convert(edit_Filename)
+    input("PLEASE RUN S2JCONVERSIONTOOL.PY\n Enter anything to end program")
