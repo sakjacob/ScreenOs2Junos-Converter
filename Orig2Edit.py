@@ -23,12 +23,14 @@ To do
 import valid_subnet
 import shlex
 
-def Convert(src_str, tkinter_object):
+def Convert(src_str, dst_folder, tkinter_object):
     # src_str = "C:\\Users\\sakjacob\\Desktop\\S2J\\cal\\cal-orig.txt"
     fp_src = open(src_str,"r")
     dst_str = src_str[:src_str.find(".txt")] + "-edit_tool.txt" #tool differienties this file from the examples, remove "tool" when finalized
     print(dst_str)
     fp_dst = open(dst_str,"w")
+    fp_cut = open(dst_folder + "\\cut.txt","w")
+    fp_cut.write("------Below lines were cut on purpose-------\n")
 
     lines = fp_src.readlines()
     try:
@@ -53,18 +55,23 @@ def Convert(src_str, tkinter_object):
                         valid_ip = valid_subnet.ValidIPSubNetPair(arg_list[4], arg_list[5], lineInList, tkinter_object)
                         line = lineInList[0]
                         if not valid_ip:
+                            fp_cut.write(line)
                             continue # do not write this line
-
-                    
                 if "ethernet" not in line and "screen icmp-id" not in line and "unset zone" not in line:
                     fp_dst.write(line)
+                else: # line cut
+                    fp_cut.write(line)
                 if "timeout never" in line:
                     print("Warning: conversation contains timeout never. May want to check/revise this line")
+
+            else: # cut lines
+                fp_cut.write(line)
     except:
         print("\nError in main")
 
     fp_src.close()
     fp_dst.close()
+    fp_cut.close()
 
 # if __name__ == "__main__":
 #     Convert()

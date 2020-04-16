@@ -13,14 +13,6 @@ import sys
 from tkinter import filedialog, simpledialog
 import tkinter as tk
 
-addresses = []
-addressSets = dict()
-policies = dict()
-applications = []
-applicationSets =[]
-
-
-
 class Policy:
     def __init__(self):
         self.mID = ""
@@ -71,6 +63,11 @@ class ApplicationSet:
 
 
 def Convert(edit_Filename, save_directory, tkinter_object):
+    addresses = []
+    addressSets = dict()
+    policies = dict()
+    applications = []
+    applicationSets =[]
     failedLines = 0
     #lSystem = input("Please type in the name of the logical system you would like to use: \n")
     lSystem = simpledialog.askstring("Logical System","Please type in the name of the logical system you would like to use: \n", parent = tkinter_object)
@@ -97,6 +94,9 @@ def Convert(edit_Filename, save_directory, tkinter_object):
     predetermined_policie_groups = set()
     for group in group_fp:
         predetermined_policie_groups.add(group.replace('\n',""))
+
+    fp_cut = open((save_directory + "\\cut.txt"),"a")
+    fp_cut.write("\n------Start of lines that were cut because of failure to convert them------\n")
 
     for line in file:
         
@@ -136,7 +136,6 @@ def Convert(edit_Filename, save_directory, tkinter_object):
                 newPolicy.mApplication.append(splitLine[10])
                 for i in range(len(splitLine)-11): # sometimes multiple actions can be on one line
                     newPolicy.mAction.add(splitLine[11+i])
-                #newPolicy.mAction.add(splitLine[11])
                 policies[newPolicy.mID] = newPolicy
             elif len(splitLine) == 4: # update current policy ID
                 if int(splitLine[3]) not in policies: #output error check
@@ -215,8 +214,13 @@ def Convert(edit_Filename, save_directory, tkinter_object):
         else:
             print("\nFailure to convert line: ")
             print(line)
+            fp_cut.write(line)
             failedLines += 1
     file.close()
+    fp_cut.close()
+
+    # delete temporary files
+    os.remove(edit_Filename)
 
     # create output files
     fp_manual_review = open(save_directory+"\\manual-review.txt","w")
@@ -247,12 +251,12 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             output = beginning + " match destination-address " + dst + '\n'
             fp_config.write(output)
         for app in IterPolicy.mApplication:
-            if app.lower() in predetermined_policies: # add "junos-" to front of app 
-                output = beginning + " match application junos-" + app.lower() + '\n'
-            elif app.lower() in predetermined_policie_groups: # write to manual review file
+            if app.lower().replace(".","") in predetermined_policies: # add "junos-" to front of app 
+                output = beginning + " match application junos-" + app.lower().replace(".","") + '\n'
+            elif app.lower().replace(".","") in predetermined_policie_groups: # write to manual review file
                 new_group = GroupPolicy()
                 new_group.template = beginning + " match application"
-                new_group.group = app.lower()
+                new_group.group = app.lower().replace(".","")
                 review_policies.append(new_group)
             elif app.lower() == "any": # get any to use consistent case
                 output = beginning + " match application " + app.lower() + '\n'
@@ -264,6 +268,8 @@ def Convert(edit_Filename, save_directory, tkinter_object):
         for action in IterPolicy.mAction:
             if action == "permit" or action == "deny" or action == "count":
                 fp_config.write(beginning + " then " + action + '\n')
+            elif action == "log":
+                fp_config.write(beginning + " then log session-init" +'\n')
 
     review_instructions ="""
 -----------------------------------------------------------------------------------------------
@@ -293,6 +299,4 @@ contains, the user can copy and paste "template + policy" for each individual po
     print("Number of failed lines: ",failedLines)
 
 if __name__ == "__main__":
-    input("Warning, you are not running the full conversion program, enter to proceed")
-    edit_Filename = input("Please type the filename you would like to convert with the file extension (i.e. file.txt): \n")
-    Convert(edit_Filename)
+    input("PLEASE RUN S2JCONVERSIONTOOL.PY\n Enter anything to end program")
