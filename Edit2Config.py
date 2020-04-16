@@ -61,6 +61,7 @@ class Application:
        self.mSourceRange = ""
        self.mDestRange = ""
        self.mProtocol = []
+       self.mTimeout = ""
 
 
 class ApplicationSet:
@@ -202,6 +203,8 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             application.mSourceRange = splitLine[6]
             application.mDestRange = splitLine[8]
             applications.append(application)
+            if len(splitLine) >= 10:
+                application.mTimeout = str(int(splitLine[10]) * 60)
         elif applicationSet == True:
             applicationSet = ApplicationSet()
             applicationSet.mAppName = splitLine[3]
@@ -276,9 +279,13 @@ contains, the user can copy and paste "template + policy" for each individual po
 
     for appLine in applications:
         if appLine.mID != 0: # if this is the first app name it shouldnt have an id at the end (ie. AppleRDP_0 is a no)
-            output = "set logical-systems " + lSystem +" applications application " + appLine.mAppName + " term " + appLine.mAppName + "_" + str(appLine.mID) + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange + "\n"
+            output = "set applications application " + appLine.mAppName + " term " + appLine.mAppName + "_" + str(appLine.mID) + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange
         else:
-            output = "set logical-systems " + lSystem +" applications application " + appLine.mAppName + " term " + appLine.mAppName + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange + "\n"
+            output = "set applications application " + appLine.mAppName + " term " + appLine.mAppName + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange
+        if appLine.mTimeout != "": # if there is a time out associated with the application then add it in or finish the line
+            output = output + " inactivity-timeout " + appLine.mTimeout + "\n"
+        else:
+            output = output + "\n"
         fp_config.write(output)
     for appLine in applicationSets:
         output = "set applications application-set " + appLine.mAppName + " application " + appLine.mAppName + " application " + appLine.mProtocol[0] + "\n"
