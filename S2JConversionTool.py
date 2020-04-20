@@ -89,6 +89,7 @@ class Application(tk.Frame):
                 Orig2Edit.Convert(self.SOS_path, self.dst_path, self)
                 edit_FileName = self.SOS_path[:self.SOS_path.find(".txt")] + "-edit_tool.txt" 
                 Edit2Config.Convert(edit_FileName,self.dst_path, self)
+                messagebox.showinfo("Success","Conversion Complete")
             except:
                 # error_str = "Failed Conversion due to: " + str(sys.exc_info()[0])
                 # for thing in sys.exc_info():
