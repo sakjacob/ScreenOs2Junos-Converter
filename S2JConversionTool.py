@@ -97,7 +97,7 @@ class Application(tk.Frame):
                 messagebox.showerror("Conversion Failure", traceback.format_exc())
                 print("bug occured")
         else:
-            print("Nope!")
+            messagebox.showerror("Conversion Failure", "Select all required input before running")
 
 root = tk.Tk()
 root.geometry('450x200')
