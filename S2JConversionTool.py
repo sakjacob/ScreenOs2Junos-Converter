@@ -9,15 +9,11 @@ Author: Jake Sak
 Last editted: 4-6-20
 
 to do:
-* remove temporary files like edit
-* ask for save location
-* prompt for desired name of resulting config
-* add required.txt to repo so users can download required extensions
-* update readme with tutorial on how to download and use program
 * have a pop up after a config complete which informs user of manual review file
 and where config is saved. 
     "Make sure to view the manual review file and add any necassary changes to the config saved at ___"
-* download and run tool on another computer
+* add conversion complete or "bug occured" pop up
+    * try and catch around conversion tool?
 """
 
 import Orig2Edit
@@ -25,6 +21,8 @@ import Edit2Config
 from tkinter import filedialog
 from tkinter import *
 import tkinter as tk
+import sys
+import traceback
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -86,10 +84,17 @@ class Application(tk.Frame):
 
     def Run(self):
         if self.SOS_bool and self.dst_bool:
-            print("Successful run")
-            Orig2Edit.Convert(self.SOS_path, self.dst_path, self)
-            edit_FileName = self.SOS_path[:self.SOS_path.find(".txt")] + "-edit_tool.txt" 
-            Edit2Config.Convert(edit_FileName,self.dst_path, self)
+            #print("Successful run")
+            try:
+                Orig2Edit.Convert(self.SOS_path, self.dst_path, self)
+                edit_FileName = self.SOS_path[:self.SOS_path.find(".txt")] + "-edit_tool.txt" 
+                Edit2Config.Convert(edit_FileName,self.dst_path, self)
+            except:
+                # error_str = "Failed Conversion due to: " + str(sys.exc_info()[0])
+                # for thing in sys.exc_info():
+                #     print(thing)
+                messagebox.showerror("Conversion Failure", traceback.format_exc())
+                print("bug occured")
         else:
             print("Nope!")
 
