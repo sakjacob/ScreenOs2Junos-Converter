@@ -1,9 +1,9 @@
 """
 This program creates a JunOS configuration from a 
-pre-processes ScreenOS configuration.
+pre-processed ScreenOS configuration.
 
 Authors: Jake Sak and Sam Gendelmen
-Last editted: 3-24-20
+Last editted: 4-16-20
 """
 
 import shlex
@@ -260,6 +260,9 @@ def Convert(edit_Filename, save_directory, tkinter_object):
                 review_policies.append(new_group)
             elif app.lower() == "any": # get any to use consistent case
                 output = beginning + " match application " + app.lower() + '\n'
+            elif app.lower() == "dns": # dns is split into udp and tcp line
+                fp_config.write(beginning + " match application junos-dns-udp\n") # write the udp line
+                output = beginning + " match application junos-dns-tcp\n" # set tcp to be be written later
             else:
                 output = beginning + " match application " + app + '\n'
             fp_config.write(output)

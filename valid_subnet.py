@@ -124,16 +124,16 @@ def ValidIPSubNetPair(ipAddress, subnetMask, line, tkinter_object):
                         continue
                     else:
                         print("\nInvalid IP subnet pair detected on the line: ",line[0])
-                        error_str = "Invalid IP subnet pair detected on the line: \n" + line[0] + "\n" + "type 1 to edit IP, 2 to edit subnet, or anything else to delete line: "
+                        error_str = "Invalid IP subnet pair detected on the line: \n" + line[0] + "\n" + "type 1 to edit IP, 2 to edit subnet, or any other number to delete line: "
                         userChoice = simpledialog.askinteger("Modify IP/subnet pair", error_str, parent = tkinter_object)
                         if (userChoice == 1): # edit IP
-                            ip_str = "input the new ip in the format of 4 octetes seperated by periods"
+                            ip_str = "input the new ip in the format of 4 octetes seperated by periods.\n Current line: "+line[0]
                             new_ip = simpledialog.askstring("Modify IP/subnet pair", ip_str, parent = tkinter_object)
 
                             line[0] = line[0].replace(ipAddress,new_ip) # swap in new ip for old ip
                             return True
                         elif (userChoice == 2): # edit subnet
-                            sub_str = "input the new subnet in the format of 4 octetes seperated by periods"
+                            sub_str = "input the new subnet in the format of 4 octetes seperated by periods.\n Current line: "+line[0]
                             new_subnet = simpledialog.askstring("Modify IP/subnet pair", sub_str, parent = tkinter_object)
                             line[0] = line[0].replace(subnetMask,new_subnet) # swap in new ip for old ip
                             return True

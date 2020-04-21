@@ -6,26 +6,22 @@ For more information on the conversion, see the files "Orig2Edit.py"
 and "Edit2Config.py"
 
 Author: Jake Sak
-Last editted: 4-6-20
+Last editted: 4-20-20
 
 to do:
-* remove temporary files like edit
-* ask for save location
-* prompt for desired name of resulting config
-* add required.txt to repo so users can download required extensions
-* update readme with tutorial on how to download and use program
-* have a pop up after a config complete which informs user of manual review file
-and where config is saved. 
-    "Make sure to view the manual review file and add any necassary changes to the config saved at ___"
-* download and run tool on another computer
+
 """
 
-import Orig2Edit
-import Edit2Config
-from tkinter import filedialog
+import Orig2Edit # preps ScreenOs config. Cuts lines, modifies keywords, validifies IP subnet Pairings 
+import Edit2Config # Converts the prepped ScreenOS file into a Junos Config
+from tkinter import filedialog # anything tkinter is for gui
 from tkinter import *
 import tkinter as tk
+import traceback # for displaying info regarding crashes
 
+"""
+The application class provides a GUI for the conversion tool
+"""
 class Application(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
@@ -37,6 +33,9 @@ class Application(tk.Frame):
         self.SOS_bool = False # update to true once screenOS filename acquired
         self.dst_bool = False # update to true once destination path acquired
 
+    """
+    The main window of the conversion tool
+    """
     def create_widgets(self):
         self.ScreenOs = tk.Button(self)
         self.ScreenOs["text"] = "Select ScreenOS config"
@@ -67,7 +66,9 @@ class Application(tk.Frame):
                               command=self.master.destroy)
         self.quit.grid(row=4)
 
-
+    """
+    Store the users choice of ScreenOs config
+    """
     def Update_SOS(self):
         temp = tk.filedialog.askopenfilename()
         if temp is not None:
@@ -76,6 +77,9 @@ class Application(tk.Frame):
             self.Screen_lbl["text"] = temp
             print(temp)
 
+    """
+    Select which directory output files are saved to
+    """
     def Update_dst(self):
         temp = tk.filedialog.askdirectory()
         if temp != "":
@@ -84,21 +88,28 @@ class Application(tk.Frame):
             self.dst_lbl["text"] = temp
             print(temp)
 
+    """
+    Run the conversion
+
+    Also prompts user if they've failed to select necassary inputs and also provides
+    error messages in case of failed conversions.
+    """
     def Run(self):
         if self.SOS_bool and self.dst_bool:
-            print("Successful run")
-            Orig2Edit.Convert(self.SOS_path, self.dst_path, self)
-            edit_FileName = self.SOS_path[:self.SOS_path.find(".txt")] + "-edit_tool.txt" 
-            Edit2Config.Convert(edit_FileName,self.dst_path, self)
-        else:
-            print("Nope!")
+            try:
+                Orig2Edit.Convert(self.SOS_path, self.dst_path, self) # run the program Orig2Edit.py
+                edit_FileName = self.SOS_path[:self.SOS_path.find(".txt")] + "-edit_tool.txt" 
+                Edit2Config.Convert(edit_FileName,self.dst_path, self) # run the program Edit2Config.py
+                messagebox.showinfo("Success","Conversion Complete")
+            except: # Catchs all any error during conversion and converts it to tkinter popup
+                messagebox.showerror("Conversion Failure", traceback.format_exc())
+                print("bug occured")
+        else: # user tried to run conversion without required inputs, reprompt user
+            messagebox.showerror("Conversion Failure", "Select all required input before running")
 
+#format and configure main page of gui
 root = tk.Tk()
 root.geometry('450x200')
 root.title("S2J Conversion Tool")
 app = Application(master=root)
 app.mainloop()
-
-# Orig2Edit.Convert(self.SOS_path)
-# edit_FileName = self.SOS_path[:self.SOS_path.find(".txt")] + "-edit_tool.txt" 
-# Edit2Config.Convert(edit_FileName)
