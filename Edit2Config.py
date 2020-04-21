@@ -285,9 +285,9 @@ contains, the user can copy and paste "template + policy" for each individual po
 
     for appLine in applications:
         if appLine.mID != 0: # if this is the first app name it shouldnt have an id at the end (ie. AppleRDP_0 is a no)
-            output = "set applications application " + appLine.mAppName + " term " + appLine.mAppName + "_" + str(appLine.mID) + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange
+            output = "set logical-systems " + lSystem + " applications application " + appLine.mAppName + " term " + appLine.mAppName + "_" + str(appLine.mID) + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange
         else:
-            output = "set applications application " + appLine.mAppName + " term " + appLine.mAppName + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange
+            output = "set logical-systems " + lSystem + " applications application " + appLine.mAppName + " term " + appLine.mAppName + " protocol " + appLine.mProtocol + " destination-port " + appLine.mDestRange + " source-port " + appLine.mSourceRange
         if appLine.mTimeout != "": # if there is a time out associated with the application then add it in or finish the line
             output = output + " inactivity-timeout " + appLine.mTimeout + "\n"
         else:
