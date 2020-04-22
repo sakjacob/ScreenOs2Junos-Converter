@@ -1,5 +1,4 @@
 # ScreenOs2Junos-Converter
-Test
 This code converts firewall configurations written for ScreenOs to Juniper OS
 
 Installation:
