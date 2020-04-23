@@ -61,6 +61,12 @@ class ApplicationSet:
        self.mAppName = ""
        self.mProtocol = []
 
+class Zone:
+    def __init__(self):
+        self.mName = ""
+        #self.mTag = 0
+        #self.mEthernet = ""
+
 
 def Convert(edit_Filename, save_directory, tkinter_object):
     addresses = []
@@ -211,9 +217,13 @@ def Convert(edit_Filename, save_directory, tkinter_object):
                 if splitLine[4] == "add":
                     applicationSet.mProtocol.append(splitLine[5])
                     applicationSets.append(applicationSet)
+        elif len(splitLine) >= 5 and splitLine[1] == "zone" and splitLine[2] == "id": # new zone
+            newZone = Zone()
+            newZone.mName = splitLine[4]
+            print(newZone.mName)
         else:
-            print("\nFailure to convert line: ")
-            print(line)
+            # print("\nFailure to convert line: ")
+            # print(line)
             fp_cut.write(line)
             failedLines += 1
     file.close()

@@ -22,6 +22,8 @@ To do
 
 import valid_subnet
 import shlex
+from tkinter import *
+import tkinter as tk
 
 def Convert(src_str, dst_folder, tkinter_object):
     # src_str = "C:\\Users\\sakjacob\\Desktop\\S2J\\cal\\cal-orig.txt"
