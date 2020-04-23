@@ -310,6 +310,7 @@ contains, the user can copy and paste "template + policy" for each individual po
         output = "set applications application-set " + appLine.mAppName + " application " + appLine.mAppName + " application " + appLine.mProtocol[0] + "\n"
         fp_config.write(output)
     print("Number of failed lines: ",failedLines)
+    print("convert zones?: ",tkinter_object.zoneBool.get())
 
 if __name__ == "__main__":
     input("PLEASE RUN S2JCONVERSIONTOOL.PY\n Enter anything to end program")

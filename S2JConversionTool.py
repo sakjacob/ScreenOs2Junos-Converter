@@ -55,16 +55,19 @@ class Application(tk.Frame):
         self.dst_lbl.grid(column=1, row = 2)
         #self.dst.pack(side="top")
 
+        self.zoneBool = BooleanVar()
+        self.zoneButton = Checkbutton(self,text="Convert Zones? (beta)", variable=self.zoneBool, command=self.zoneClick)
+        self.zoneButton.grid(row=3)
         
 
         self.run = tk.Button(self)
         self.run["text"] = "Start conversion"
         self.run["command"] = self.Run
-        self.run.grid(row=3)
+        self.run.grid(column = 0, row=4)
 
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
-        self.quit.grid(row=4)
+        self.quit.grid(column = 1, row=4)
 
     """
     Store the users choice of ScreenOs config
@@ -106,6 +109,9 @@ class Application(tk.Frame):
                 print("bug occured")
         else: # user tried to run conversion without required inputs, reprompt user
             messagebox.showerror("Conversion Failure", "Select all required input before running")
+
+    def zoneClick(self):
+        print(self.zoneBool.get())
 
 #format and configure main page of gui
 root = tk.Tk()
