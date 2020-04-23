@@ -64,8 +64,8 @@ class ApplicationSet:
 class Zone:
     def __init__(self):
         self.mName = ""
-        #self.mTag = 0
-        #self.mEthernet = ""
+        self.mTag = 0
+        self.mEthernet = ""
 
 
 def Convert(edit_Filename, save_directory, tkinter_object):
@@ -73,7 +73,8 @@ def Convert(edit_Filename, save_directory, tkinter_object):
     addressSets = dict()
     policies = dict()
     applications = []
-    applicationSets =[]
+    applicationSets = []
+    zones = dict()
     failedLines = 0
     #lSystem = input("Please type in the name of the logical system you would like to use: \n")
     lSystem = simpledialog.askstring("Logical System","Please type in the name of the logical system you would like to use: \n", parent = tkinter_object)
@@ -220,7 +221,15 @@ def Convert(edit_Filename, save_directory, tkinter_object):
         elif len(splitLine) >= 5 and splitLine[1] == "zone" and splitLine[2] == "id": # new zone
             newZone = Zone()
             newZone.mName = splitLine[4]
+            zones[newZone.mName] = newZone
             print(newZone.mName)
+        elif len(splitLine) >= 7 and splitLine[1] == "interface" and splitLine[3] == "tag" and splitLine[5] == "zone": # logical unit and ethernet port info
+            print("Interface with e: ",splitLine[2]," and tag: ",splitLine[4])
+            if zones.get(splitLine[6]) == None:
+                print("dictionary error on line: ",line)
+            else:
+                zones[splitLine[6]].mTag = splitLine[4]
+                zones[splitLine[6]].mEthernet = splitLine[2]             
         else:
             # print("\nFailure to convert line: ")
             # print(line)
