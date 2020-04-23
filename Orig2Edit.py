@@ -59,7 +59,13 @@ def Convert(src_str, dst_folder, tkinter_object):
                         if not valid_ip:
                             fp_cut.write(line)
                             continue # do not write this line
-                if "ethernet" not in line and "screen icmp-id" not in line and "unset zone" not in line:
+                
+                if tkinter_object.zoneBool.get(): # don't cut interface lines if converting zones/interfaces
+                    eBool = True
+                else:
+                    eBool = "ethernet" not in line
+
+                if eBool and "screen icmp-id" not in line and "unset zone" not in line:
                     fp_dst.write(line)
                 else: # line cut
                     fp_cut.write(line)
