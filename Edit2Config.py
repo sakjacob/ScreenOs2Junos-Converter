@@ -65,7 +65,7 @@ class Zone:
     def __init__(self):
         self.mName = ""
         self.mTag = 0
-        self.mEthernet = ""
+        self.mIpv4 = ""
 
 
 def Convert(edit_Filename, save_directory, tkinter_object):
@@ -229,7 +229,7 @@ def Convert(edit_Filename, save_directory, tkinter_object):
                 print("dictionary error on line: ",line)
             else:
                 zones[splitLine[6]].mTag = splitLine[4]
-                zones[splitLine[6]].mEthernet = splitLine[2]             
+                zones[splitLine[6]].mIpv4 = splitLine[2]             
         else:
             # print("\nFailure to convert line: ")
             # print(line)
@@ -292,6 +292,13 @@ def Convert(edit_Filename, save_directory, tkinter_object):
                 fp_config.write(beginning + " then " + action + '\n')
             elif action == "log":
                 fp_config.write(beginning + " then log session-init" +'\n')
+    for appLine in applicationSets:
+        output = "set applications application-set " + appLine.mAppName + " application " + appLine.mAppName + " application " + appLine.mProtocol[0] + "\n"
+        fp_config.write(output)
+    for zoneName in zones:
+        zone = zones[zoneName]
+        interface = "set logical-systems " + lSystem + " interfaces reth0 unit " + zone.mTag + " vlan-id " + zone.mTag + "\n"
+        fp_config.write(interface)
 
     review_instructions ="""
 -----------------------------------------------------------------------------------------------
@@ -315,11 +322,8 @@ contains, the user can copy and paste "template + policy" for each individual po
         else:
             output = output + "\n"
         fp_config.write(output)
-    for appLine in applicationSets:
-        output = "set applications application-set " + appLine.mAppName + " application " + appLine.mAppName + " application " + appLine.mProtocol[0] + "\n"
-        fp_config.write(output)
+
     print("Number of failed lines: ",failedLines)
     print("convert zones?: ",tkinter_object.zoneBool.get())
-
 if __name__ == "__main__":
     input("PLEASE RUN S2JCONVERSIONTOOL.PY\n Enter anything to end program")
