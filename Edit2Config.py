@@ -325,9 +325,9 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             ipv4 = beginning + " family inet address " + iterInterface.mIpv4 + "\n"
             fp_config.write(ipv4)
 
-        # if interface.mZone.mName != "": # interace connected with zone
-        #     description = beginning + " description " + interface.mZone.mName + "\n"
-        #     fp_config.write(description)
+        if iterInterface.mZone.mName != "": # interace connected with zone
+            description = beginning + " description " + iterInterface.mZone.mName + "\n"
+            fp_config.write(description)
 
     review_instructions ="""
 -----------------------------------------------------------------------------------------------
