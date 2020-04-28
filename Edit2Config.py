@@ -64,8 +64,15 @@ class ApplicationSet:
 class Zone:
     def __init__(self):
         self.mName = ""
-        self.mTag = 0
+        self.mInterface = None
+
+class Interface:
+    def __init__(self):
+        self.mName = ""
         self.mIpv4 = ""
+        self.mIpv6 = ""
+        self.mUnit = -1
+        self.mZone = None
 
 
 def Convert(edit_Filename, save_directory, tkinter_object):
@@ -75,6 +82,7 @@ def Convert(edit_Filename, save_directory, tkinter_object):
     applications = []
     applicationSets = []
     zones = dict()
+    interfaces = dict() # same members as zones but organized with a different key
     failedLines = 0
     #lSystem = input("Please type in the name of the logical system you would like to use: \n")
     lSystem = simpledialog.askstring("Logical System","Please type in the name of the logical system you would like to use: \n", parent = tkinter_object)
@@ -223,13 +231,25 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             newZone.mName = splitLine[4]
             zones[newZone.mName] = newZone
             print(newZone.mName)
-        elif len(splitLine) >= 7 and splitLine[1] == "interface" and splitLine[3] == "tag" and splitLine[5] == "zone": # logical unit and ethernet port info
+        elif len(splitLine) >= 7 and splitLine[1] == "interface" and splitLine[3] == "tag" and splitLine[5] == "zone": # new interface
             print("Interface with e: ",splitLine[2]," and tag: ",splitLine[4])
+            newInterface = Interface()
+            newInterface.mName = splitLine[2]
+            newInterface.mUnit = splitLine[4]
             if zones.get(splitLine[6]) == None:
                 print("dictionary error on line: ",line)
             else:
-                zones[splitLine[6]].mTag = splitLine[4]
-                zones[splitLine[6]].mIpv4 = splitLine[2]             
+                # pair zone and interface and add interface to interface dictionary
+                newInterface.mZone = zones[splitLine[6]]
+                newInterface.mZone.mInterface = newInterface
+                interfaces[newInterface.mName] = newInterface
+        elif len(splitLine) >= 5 and splitLine[1] == "interface" and splitLine[3] == "ip": # ipv4 info for an interface
+            if interfaces.get(splitLine[2]) == None:
+                print("dictionary error on line: ",line)
+            else:
+                if '.' in splitLine[4]: # ipv4 address
+                    interfaces[splitLine[2]].mIpv4 = splitLine[4]
+                # can be other stuff, such as "manageable". Add support for this later
         else:
             # print("\nFailure to convert line: ")
             # print(line)
@@ -295,10 +315,19 @@ def Convert(edit_Filename, save_directory, tkinter_object):
     for appLine in applicationSets:
         output = "set applications application-set " + appLine.mAppName + " application " + appLine.mAppName + " application " + appLine.mProtocol[0] + "\n"
         fp_config.write(output)
-    for zoneName in zones:
-        zone = zones[zoneName]
-        interface = "set logical-systems " + lSystem + " interfaces reth0 unit " + zone.mTag + " vlan-id " + zone.mTag + "\n"
-        fp_config.write(interface)
+    for interfaceName in interfaces:
+        iterInterface = interfaces[interfaceName]
+        beginning = "set logical-systems " + lSystem + " interfaces reth0 unit " + iterInterface.mUnit
+        interface_str = beginning + " vlan-id " + iterInterface.mUnit + "\n"
+        fp_config.write(interface_str)
+
+        if iterInterface.mIpv4 != "": # ipv4 address known
+            ipv4 = beginning + " family inet address " + iterInterface.mIpv4 + "\n"
+            fp_config.write(ipv4)
+
+        # if interface.mZone.mName != "": # interace connected with zone
+        #     description = beginning + " description " + interface.mZone.mName + "\n"
+        #     fp_config.write(description)
 
     review_instructions ="""
 -----------------------------------------------------------------------------------------------
