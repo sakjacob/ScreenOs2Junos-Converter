@@ -10,6 +10,7 @@ Last editted: 4-20-20
 
 to do:
 * prompt user if they want to try the beta zones and interfaces conversion
+* if beta zones and interfaces, prompt user if they'd like to enable ipv6? 
 """
 
 import Orig2Edit # preps ScreenOs config. Cuts lines, modifies keywords, validifies IP subnet Pairings 
