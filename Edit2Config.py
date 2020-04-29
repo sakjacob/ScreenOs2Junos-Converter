@@ -2,8 +2,12 @@
 This program creates a JunOS configuration from a 
 pre-processed ScreenOS configuration.
 
+To Do
+* convert services for zones
+* convert screen stuff for zones
+
 Authors: Jake Sak and Sam Gendelmen
-Last editted: 4-16-20
+Last editted: 4-28-20
 """
 
 import shlex
@@ -64,6 +68,8 @@ class ApplicationSet:
 class Zone:
     def __init__(self):
         self.mName = ""
+        self.mServices = [] # enabled services like tcp-rst
+        self.mScreen = [] # screen stuff like "ping-death" or "limit-session source-ip-based ___", etc
         self.mInterface = None
 
 class Interface:
@@ -328,6 +334,8 @@ def Convert(edit_Filename, save_directory, tkinter_object):
         if iterInterface.mZone.mName != "": # interace connected with zone
             description = beginning + " description " + iterInterface.mZone.mName + "\n"
             fp_config.write(description)
+
+        fp_config.write(beginning + " family inet6 dad-disable\n")
 
     review_instructions ="""
 -----------------------------------------------------------------------------------------------
