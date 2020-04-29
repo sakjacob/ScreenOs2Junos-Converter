@@ -11,6 +11,8 @@ Last editted: 4-20-20
 to do:
 * prompt user if they want to try the beta zones and interfaces conversion
 * if beta zones and interfaces, prompt user if they'd like to enable ipv6? 
+* add warning to conversion complete if beta zones selected
+* 
 """
 
 import Orig2Edit # preps ScreenOs config. Cuts lines, modifies keywords, validifies IP subnet Pairings 
@@ -104,7 +106,10 @@ class Application(tk.Frame):
                 Orig2Edit.Convert(self.SOS_path, self.dst_path, self) # run the program Orig2Edit.py
                 edit_FileName = self.SOS_path[:self.SOS_path.find(".txt")] + "-edit_tool.txt" 
                 Edit2Config.Convert(edit_FileName,self.dst_path, self) # run the program Edit2Config.py
-                messagebox.showinfo("Success","Conversion Complete")
+                complete_msg = "Conversion Complete"
+                if self.zoneBool.get():
+                    complete_msg = complete_msg + "\nAdvised to review zones and interfaces due to beta"
+                messagebox.showinfo("Success", complete_msg)
             except: # Catchs all any error during conversion and converts it to tkinter popup
                 messagebox.showerror("Conversion Failure", traceback.format_exc())
                 print("bug occured")
