@@ -13,7 +13,7 @@ This program only cuts/modifies a line if it detects a flaw. By default
 lines will be copied from orginal document to edit file.
 
 Author: Jake Sak
-Last edit: 3-19-20
+Last edit: 4-29-20
 
 To do
 *make names for intermediary files more concise
@@ -26,7 +26,6 @@ from tkinter import *
 import tkinter as tk
 
 def Convert(src_str, dst_folder, tkinter_object):
-    # src_str = "C:\\Users\\sakjacob\\Desktop\\S2J\\cal\\cal-orig.txt"
     fp_src = open(src_str,"r")
     dst_str = src_str[:src_str.find(".txt")] + "-edit_tool.txt" #tool differienties this file from the examples, remove "tool" when finalized
     print(dst_str)
@@ -57,8 +56,8 @@ def Convert(src_str, dst_folder, tkinter_object):
                         valid_ip = valid_subnet.ValidIPSubNetPair(arg_list[4], arg_list[5], lineInList, tkinter_object)
                         line = lineInList[0]
                         if not valid_ip:
-                            fp_cut.write(line)
-                            continue # do not write this line
+                            fp_cut.write(line) # record cut line
+                            continue # cuts line
                 
                 if tkinter_object.zoneBool.get(): # don't cut interface lines if converting zones/interfaces
                     eBool = True

@@ -7,7 +7,7 @@ To Do
 * convert screen stuff for zones
 
 Authors: Jake Sak and Sam Gendelmen
-Last editted: 4-28-20
+Last editted: 4-29-20
 """
 
 import shlex
@@ -27,6 +27,7 @@ class Policy:
         self.mApplication = []
         self.mAction = set()
         self.mDisabled = False
+        self.mName = ""
 
     def __eq__(pol2):
         if self.mID == pol2.mID:
@@ -150,14 +151,26 @@ def Convert(edit_Filename, save_directory, tkinter_object):
                 # create new policy object. Throw an error if already in dictionary
                 newPolicy = Policy()
                 newPolicy.mID = int(splitLine[3])
-                newPolicy.mFromZone = splitLine[5]
-                newPolicy.mToZone = splitLine[7]
-                newPolicy.mSrcAdress.append(splitLine[8])
-                newPolicy.mDestAdress.append(splitLine[9])
-                newPolicy.mApplication.append(splitLine[10])
-                for i in range(len(splitLine)-11): # sometimes multiple actions can be on one line
-                    newPolicy.mAction.add(splitLine[11+i])
-                policies[newPolicy.mID] = newPolicy
+                newPolicy.mName = splitLine[3]
+                if splitLine[4] == "name" and len(splitLine) >= 13: #policy has name, indexing will be different
+                    newPolicy.mName = splitLine[5].replace(" ","-")
+                    newPolicy.mFromZone = splitLine[7]
+                    newPolicy.mToZone = splitLine[9]
+                    newPolicy.mSrcAdress.append(splitLine[10])
+                    newPolicy.mDestAdress.append(splitLine[11])
+                    newPolicy.mApplication.append(splitLine[12])
+                    for i in range(len(splitLine)-13): # sometimes multiple actions can be on one line
+                        newPolicy.mAction.add(splitLine[13+i])
+                    policies[newPolicy.mID] = newPolicy
+                else: # policy doesn't name, use id
+                    newPolicy.mFromZone = splitLine[5]
+                    newPolicy.mToZone = splitLine[7]
+                    newPolicy.mSrcAdress.append(splitLine[8])
+                    newPolicy.mDestAdress.append(splitLine[9])
+                    newPolicy.mApplication.append(splitLine[10])
+                    for i in range(len(splitLine)-11): # sometimes multiple actions can be on one line
+                        newPolicy.mAction.add(splitLine[11+i])
+                    policies[newPolicy.mID] = newPolicy
             elif len(splitLine) == 4: # update current policy ID
                 if int(splitLine[3]) not in policies: #output error check
                     print("Error, new policy ID when it should already exist")
@@ -288,7 +301,7 @@ def Convert(edit_Filename, save_directory, tkinter_object):
     for ID in policies:
         # front portion of every line
         IterPolicy = policies[ID] 
-        beginning = "set logical-systems " + lSystem + " security policies from-zone " + IterPolicy.mFromZone + " to-zone " + IterPolicy.mToZone + " policy " + str(IterPolicy.mID)
+        beginning = "set logical-systems " + lSystem + " security policies from-zone " + IterPolicy.mFromZone + " to-zone " + IterPolicy.mToZone + " policy " + IterPolicy.mName
         for src in IterPolicy.mSrcAdress:
             output = beginning + " match source-address " + src + '\n'
             fp_config.write(output)
@@ -312,7 +325,7 @@ def Convert(edit_Filename, save_directory, tkinter_object):
                 output = beginning + " match application " + app + '\n'
             fp_config.write(output)
         if IterPolicy.mDisabled:
-            fp_config.write("deactivate security policies from-zone " + IterPolicy.mFromZone + " to-zone " + IterPolicy.mToZone + " policy " + str(IterPolicy.mID)+'\n')
+            fp_config.write("deactivate security policies from-zone " + IterPolicy.mFromZone + " to-zone " + IterPolicy.mToZone + " policy " + IterPolicy.mName +'\n')
         for action in IterPolicy.mAction:
             if action == "permit" or action == "deny" or action == "count":
                 fp_config.write(beginning + " then " + action + '\n')

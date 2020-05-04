@@ -6,13 +6,13 @@ For more information on the conversion, see the files "Orig2Edit.py"
 and "Edit2Config.py"
 
 Author: Jake Sak
-Last editted: 4-20-20
+Last editted: 4-29-20
 
 to do:
-* prompt user if they want to try the beta zones and interfaces conversion
 * if beta zones and interfaces, prompt user if they'd like to enable ipv6? 
-* add warning to conversion complete if beta zones selected
-* 
+* stop cutting route and vrouter lines
+* create list of interfaces used in routes
+* write line for each unit used by interfaces 
 """
 
 import Orig2Edit # preps ScreenOs config. Cuts lines, modifies keywords, validifies IP subnet Pairings 
