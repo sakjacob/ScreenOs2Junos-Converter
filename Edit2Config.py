@@ -329,11 +329,22 @@ def Convert(edit_Filename, save_directory, tkinter_object):
         for action in IterPolicy.mAction:
             if action == "permit" or action == "deny" or action == "count":
                 fp_config.write(beginning + " then " + action + '\n')
-            elif action == "log":
-                fp_config.write(beginning + " then log session-init" +'\n')
+            # elif action == "log":
+        fp_config.write(beginning + " then log session-init" +'\n')
     for appLine in applicationSets:
         output = "set applications application-set " + appLine.mAppName + " application " + appLine.mAppName + " application " + appLine.mProtocol[0] + "\n"
         fp_config.write(output)
+    for zoneKey in zones:
+        zoneIter = zones[zoneKey]
+        if zoneIter.mInterface == None: # zone does not have interface. Can't write zone lines without interface tag
+            print("Zone does not have interface, can't convert")
+            fp_manual_review.write("Error converting zone "+ zoneIter.mName + "\n")
+            continue
+        beginning = "set logical-systems " + lSystem + " security zones security-zone " + zoneIter.mName
+        fp_config.write(beginning + " host-inbound-traffic system-services ping\n")
+        fp_config.write(beginning + " host-inbound-traffic system-services traceroute\n")
+        fp_config.write(beginning + " interfaces reth0." +zoneIter.mInterface.mUnit + " host-inbound-traffic system-services ping\n")
+        fp_config.write(beginning + " interfaces reth0." +zoneIter.mInterface.mUnit + " host-inbound-traffic system-services traceroute\n")
     for interfaceName in interfaces:
         iterInterface = interfaces[interfaceName]
         beginning = "set logical-systems " + lSystem + " interfaces reth0 unit " + iterInterface.mUnit
