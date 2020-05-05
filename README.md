@@ -2,11 +2,11 @@
 This code converts firewall configurations written for ScreenOs to Juniper OS
 
 ## Covered by conversion tool:
-*policies (manual intervention needed for predefined service groups)
-*applications
-*address
-*address sets/books
-*interfaces
+* policies (manual intervention needed for predefined service groups)
+* applications
+* address
+* address sets/books
+* interfaces
 
 ## Beta:
 *zones (ping and traceroute lines enabled by default, other lines not converted)
