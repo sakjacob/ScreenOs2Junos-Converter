@@ -76,10 +76,25 @@ class Zone:
 class Interface:
     def __init__(self):
         self.mName = ""
-        self.mIpv4 = ""
         self.mIpv6 = ""
         self.mUnit = -1
         self.mZone = None
+        self.mPrimary = "" # primary ipv4 address 
+        self.mSecondary = [] # secondary ipv4 addresses
+
+"""
+Converts a subnet in the form of xxx.xxx.xxx.xxx to cidr notation
+"""
+def CIDR(subnet):
+    quadrants = subnet.split(".") # get the cidr value from the subnet we are given
+    cidr = 0
+    for val in quadrants:
+        v = int(val)
+        v = f'{v:08b}' # convert the subnet int into binary to count for CIDR
+        for bin in v:
+            if bin == '1':
+                cidr += 1
+    return(str(cidr))
 
 
 def Convert(edit_Filename, save_directory, tkinter_object):
@@ -257,7 +272,9 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             newInterface.mUnit = splitLine[4]
             if zones.get(splitLine[6]) == None:
                 print("dictionary error on line: ",line)
-            else:
+                fp_cut.write(line)
+                pass
+            else: # dictionary key error
                 # pair zone and interface and add interface to interface dictionary
                 newInterface.mZone = zones[splitLine[6]]
                 newInterface.mZone.mInterface = newInterface
@@ -265,9 +282,19 @@ def Convert(edit_Filename, save_directory, tkinter_object):
         elif len(splitLine) >= 5 and splitLine[1] == "interface" and splitLine[3] == "ip" and tkinter_object.zoneBool.get(): # ipv4 info for an interface
             if interfaces.get(splitLine[2]) == None:
                 print("dictionary error on line: ",line)
+                fp_cut.write(line)
+                pass
             else:
-                if '.' in splitLine[4]: # ipv4 address
-                    interfaces[splitLine[2]].mIpv4 = splitLine[4]
+                if interfaces[splitLine[2]].mPrimary == "" and "secondary" not in splitLine: # set as primary address
+                    if '.' in splitLine[4] and "/" in splitLine[4]: # ipv4 address in CIDR Form
+                        interfaces[splitLine[2]].mPrimary = splitLine[4]
+                    elif '.' in splitLine[4] and len(splitLine) >= 6: # ipv4 without CIDR
+                        interfaces[splitLine[2]].mPrimary = splitLine[4] + '/' + CIDR(splitLine[5])
+                else: # secondary address
+                    if '.' in splitLine[4] and "/" in splitLine[4]: # ipv4 address in CIDR Form
+                        interfaces[splitLine[2]].mSecondary.append(splitLine[4])
+                    elif '.' in splitLine[4] and len(splitLine) >= 6: # ipv4 without CIDR
+                        interfaces[splitLine[2]].mSecondary.append(splitLine[4] + '/' + CIDR(splitLine[5]))
                 # can be other stuff, such as "manageable". Add support for this later
         else:
             # print("\nFailure to convert line: ")
@@ -351,9 +378,11 @@ def Convert(edit_Filename, save_directory, tkinter_object):
         interface_str = beginning + " vlan-id " + iterInterface.mUnit + "\n"
         fp_config.write(interface_str)
 
-        if iterInterface.mIpv4 != "": # ipv4 address known
-            ipv4 = beginning + " family inet address " + iterInterface.mIpv4 + "\n"
+        if iterInterface.mPrimary != "": # ipv4 address known
+            ipv4 = beginning + " family inet address " + iterInterface.mPrimary + "\n"
             fp_config.write(ipv4)
+        for secondaryIP in iterInterface.mSecondary: # write secondary IPs
+            fp_config.write(beginning + " family inet address " + secondaryIP + " secondary\n")
 
         if iterInterface.mZone.mName != "": # interace connected with zone
             description = beginning + " description " + iterInterface.mZone.mName + "\n"
