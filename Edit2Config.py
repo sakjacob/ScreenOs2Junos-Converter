@@ -245,12 +245,12 @@ def Convert(edit_Filename, save_directory, tkinter_object):
                 if splitLine[4] == "add":
                     applicationSet.mProtocol.append(splitLine[5])
                     applicationSets.append(applicationSet)
-        elif len(splitLine) >= 5 and splitLine[1] == "zone" and splitLine[2] == "id": # new zone
+        elif len(splitLine) >= 5 and splitLine[1] == "zone" and splitLine[2] == "id" and tkinter_object.zoneBool.get(): # new zone
             newZone = Zone()
             newZone.mName = splitLine[4]
             zones[newZone.mName] = newZone
             print(newZone.mName)
-        elif len(splitLine) >= 7 and splitLine[1] == "interface" and splitLine[3] == "tag" and splitLine[5] == "zone": # new interface
+        elif len(splitLine) >= 7 and splitLine[1] == "interface" and splitLine[3] == "tag" and splitLine[5] == "zone" and tkinter_object.zoneBool.get(): # new interface
             print("Interface with e: ",splitLine[2]," and tag: ",splitLine[4])
             newInterface = Interface()
             newInterface.mName = splitLine[2]
@@ -262,7 +262,7 @@ def Convert(edit_Filename, save_directory, tkinter_object):
                 newInterface.mZone = zones[splitLine[6]]
                 newInterface.mZone.mInterface = newInterface
                 interfaces[newInterface.mName] = newInterface
-        elif len(splitLine) >= 5 and splitLine[1] == "interface" and splitLine[3] == "ip": # ipv4 info for an interface
+        elif len(splitLine) >= 5 and splitLine[1] == "interface" and splitLine[3] == "ip" and tkinter_object.zoneBool.get(): # ipv4 info for an interface
             if interfaces.get(splitLine[2]) == None:
                 print("dictionary error on line: ",line)
             else:
@@ -301,7 +301,7 @@ def Convert(edit_Filename, save_directory, tkinter_object):
     for ID in policies:
         # front portion of every line
         IterPolicy = policies[ID] 
-        beginning = "set logical-systems " + lSystem + " security policies from-zone " + IterPolicy.mFromZone + " to-zone " + IterPolicy.mToZone + " policy " + IterPolicy.mName
+        beginning = "set logical-systems " + lSystem + " security policies from-zone " + IterPolicy.mFromZone + " to-zone " + IterPolicy.mToZone + " policy " + str(IterPolicy.mID)
         for src in IterPolicy.mSrcAdress:
             output = beginning + " match source-address " + src + '\n'
             fp_config.write(output)
@@ -325,7 +325,7 @@ def Convert(edit_Filename, save_directory, tkinter_object):
                 output = beginning + " match application " + app + '\n'
             fp_config.write(output)
         if IterPolicy.mDisabled:
-            fp_config.write("deactivate security policies from-zone " + IterPolicy.mFromZone + " to-zone " + IterPolicy.mToZone + " policy " + IterPolicy.mName +'\n')
+            fp_config.write("deactivate security policies from-zone " + IterPolicy.mFromZone + " to-zone " + IterPolicy.mToZone + " policy " + str(IterPolicy.mID) +'\n')
         for action in IterPolicy.mAction:
             if action == "permit" or action == "deny" or action == "count":
                 fp_config.write(beginning + " then " + action + '\n')
