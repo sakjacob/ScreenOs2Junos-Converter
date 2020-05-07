@@ -379,10 +379,10 @@ def Convert(edit_Filename, save_directory, tkinter_object):
         fp_config.write(interface_str)
 
         if iterInterface.mPrimary != "": # ipv4 address known
-            ipv4 = beginning + " family inet address " + iterInterface.mPrimary + "\n"
+            ipv4 = beginning + " family inet address " + iterInterface.mPrimary + " primary\n"
             fp_config.write(ipv4)
         for secondaryIP in iterInterface.mSecondary: # write secondary IPs
-            fp_config.write(beginning + " family inet address " + secondaryIP + " secondary\n")
+            fp_config.write(beginning + " family inet address " + secondaryIP + "\n")
 
         if iterInterface.mZone.mName != "": # interace connected with zone
             description = beginning + " description " + iterInterface.mZone.mName + "\n"
