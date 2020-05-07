@@ -207,24 +207,24 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             address.mDomain = splitLine[3].replace(" ","-").replace("(","-").replace(")","")
             address.mAddress = splitLine[4]
             if "::" not in splitLine[4]: # IPV4 address
-                if len(splitLine) < 6:
+                if len(splitLine) < 6: # dns address
                     address.mDnsName = True
                     print("\nSuspected dns-name line. Line reads:")
                     print(line)
-                    continue
-                address.mSubNet = str(splitLine[5])
-                subNet = address.mSubNet.split(".") # get the cidr value from the subnet we are given
-                subnet = 0
-                for val in subNet:
-                    v = int(val)
-                    v = f'{v:08b}' # convert the subnet int into binary to count for CIDR
-                    for bin in v:
-                        if bin == '1':
-                            subnet += 1
-                address.mCIDR = str(subnet)
-                address.mAddress = str(splitLine[4]) +"/"+ address.mCIDR
+                else:
+                    address.mSubNet = str(splitLine[5])
+                    subNet = address.mSubNet.split(".") # get the cidr value from the subnet we are given
+                    subnet = 0
+                    for val in subNet:
+                        v = int(val)
+                        v = f'{v:08b}' # convert the subnet int into binary to count for CIDR
+                        for bin in v:
+                            if bin == '1':
+                                subnet += 1
+                    address.mCIDR = str(subnet)
+                    address.mAddress = str(splitLine[4]) +"/"+ address.mCIDR
             else: # IPV6 address
-                address.mDnsName= True
+                address.mDnsName = True
             addresses.append(address)
             #print(address.mDomain, address.mAddress)
         elif addressSet == True:
@@ -264,9 +264,9 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             newZone = Zone()
             newZone.mName = splitLine[4]
             zones[newZone.mName] = newZone
-            print(newZone.mName)
+            #print(newZone.mName)
         elif len(splitLine) >= 7 and splitLine[1] == "interface" and splitLine[3] == "tag" and splitLine[5] == "zone" and tkinter_object.zoneBool.get(): # new interface
-            print("Interface with e: ",splitLine[2]," and tag: ",splitLine[4])
+            #print("Interface with e: ",splitLine[2]," and tag: ",splitLine[4])
             newInterface = Interface()
             newInterface.mName = splitLine[2]
             newInterface.mUnit = splitLine[4]
