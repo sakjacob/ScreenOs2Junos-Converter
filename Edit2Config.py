@@ -361,7 +361,7 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             # elif action == "log":
         fp_config.write(beginning + " then log session-init" +'\n')
     for appLine in applicationSets:
-        output = "set applications application-set " + appLine.mAppName + " application " + appLine.mAppName + " application " + appLine.mProtocol[0] + "\n"
+        output = "set logical-systems " + lSystem + " applications application-set " + appLine.mAppName + " application " + appLine.mProtocol[0] + "\n"
         fp_config.write(output)
     for zoneKey in zones:
         zoneIter = zones[zoneKey]
