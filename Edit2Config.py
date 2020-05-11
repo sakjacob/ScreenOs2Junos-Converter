@@ -143,7 +143,7 @@ def Convert(edit_Filename, save_directory, tkinter_object):
         addressSet = False
         applicationSet = False
 
-        splitLine = shlex.split(line)
+        splitLine = shlex.split(line.replace("#","-").replace("*","_"))
         sp_index = 0 # index of arg in splitline
         for arg in splitLine: # args do not have spaces in junos
             splitLine[sp_index] = arg.replace(" ","-")
@@ -201,7 +201,7 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             policies[PolicyID].mDestAdress.append(splitLine[2])
         elif len(splitLine) == 3 and splitLine[1] == "service": # add another service/application to current policy
             policies[PolicyID].mApplication.append(splitLine[2])
-        elif address == True:
+        elif address == True: 
             address = Address()
             address.mSecurityZone = str(splitLine[2])
             address.mDomain = splitLine[3].replace(" ","-").replace("(","-").replace(")","")
@@ -209,8 +209,8 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             if "::" not in splitLine[4]: # IPV4 address
                 if len(splitLine) < 6: # dns address
                     address.mDnsName = True
-                    print("\nSuspected dns-name line. Line reads:")
-                    print(line)
+                    #print("\nSuspected dns-name line. Line reads:")
+                    #print(line)
                 else:
                     address.mSubNet = str(splitLine[5])
                     subNet = address.mSubNet.split(".") # get the cidr value from the subnet we are given
@@ -273,7 +273,8 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             if zones.get(splitLine[6]) == None:
                 print("dictionary error on line: ",line)
                 fp_cut.write(line)
-                pass
+                failedLines += 1
+                continue
             else: # dictionary key error
                 # pair zone and interface and add interface to interface dictionary
                 newInterface.mZone = zones[splitLine[6]]
@@ -283,7 +284,8 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             if interfaces.get(splitLine[2]) == None:
                 print("dictionary error on line: ",line)
                 fp_cut.write(line)
-                pass
+                failedLines += 1
+                continue
             else:
                 if interfaces[splitLine[2]].mPrimary == "" and "secondary" not in splitLine: # set as primary address
                     if '.' in splitLine[4] and "/" in splitLine[4]: # ipv4 address in CIDR Form
@@ -414,6 +416,6 @@ contains, the user can copy and paste "template + policy" for each individual po
         fp_config.write(output)
 
     print("Number of failed lines: ",failedLines)
-    print("convert zones?: ",tkinter_object.zoneBool.get())
+    #print("convert zones?: ",tkinter_object.zoneBool.get())
 if __name__ == "__main__":
     input("PLEASE RUN S2JCONVERSIONTOOL.PY\n Enter anything to end program")
