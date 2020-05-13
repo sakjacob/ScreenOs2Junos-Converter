@@ -232,12 +232,19 @@ def Convert(edit_Filename, save_directory, tkinter_object):
                 print("\nFailure to convert line: ")
                 print(line)
             elif (len(splitLine) == 5 or (len(splitLine) == 7 and splitLine[5] == "comment")): # make a new address group
-                addressSets[splitLine[4].replace(" ","-")] = []
+                addressSets[splitLine[4].replace(" ","-")] = set()
             elif (len(splitLine) >= 7 and splitLine[5] == "add"): # add to an address set
-                if splitLine[4].replace(" ","-") in addressSets:
-                    addressSets[splitLine[4].replace(" ","-")].append(splitLine[6].replace(" ","-"))
+                if splitLine[4].replace(" ","-") in addressSets: # group already exists
+                    if splitLine[6].replace(" ","-") in addressSets: # combining two address sets
+                        addressSets[splitLine[4].replace(" ","-")] |= (addressSets[splitLine[6].replace(" ","-")])
+                    else: # add single address
+                        addressSets[splitLine[4].replace(" ","-")].add(splitLine[6].replace(" ","-")) # add single address
                 else: # group was never created, create group and add to it 
-                    addressSets[splitLine[4].replace(" ","-")] = [splitLine[6].replace(" ","-")]
+                    addressSets[splitLine[4].replace(" ","-")] = set()
+                    if splitLine[6].replace(" ","-") in addressSets: # combining two address sets
+                        addressSets[splitLine[4].replace(" ","-")].union(addressSets[splitLine[6].replace(" ","-")])
+                    else: # add single address
+                        addressSets[splitLine[4].replace(" ","-")].add(splitLine[6].replace(" ","-")) # add single address
             else:
                 print("\nFailure to convert line: ")
                 print(line)
