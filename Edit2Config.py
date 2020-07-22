@@ -85,6 +85,12 @@ class Interface:
 """
 Converts a subnet in the form of xxx.xxx.xxx.xxx to cidr notation
 """
+
+def ValidifyLeadingChar(s):
+    while (len(s) > 0 and s[0] in ["-","_"]):
+        s = s[1:]
+    return s
+
 def CIDR(subnet):
     quadrants = subnet.split(".") # get the cidr value from the subnet we are given
     cidr = 0
@@ -147,6 +153,7 @@ def Convert(edit_Filename, save_directory, tkinter_object):
         sp_index = 0 # index of arg in splitline
         for arg in splitLine: # args do not have spaces in junos
             splitLine[sp_index] = arg.replace(" ","-")
+            splitLine[sp_index] = ValidifyLeadingChar(arg)
             #splitLine[sp_index] = arg.replace("_","-")
             sp_index += 1
 
