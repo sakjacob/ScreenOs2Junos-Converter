@@ -370,7 +370,7 @@ def Convert(edit_Filename, save_directory, tkinter_object):
         if IterPolicy.mDisabled:
             fp_config.write("deactivate security policies from-zone " + IterPolicy.mFromZone + " to-zone " + IterPolicy.mToZone + " policy " + str(IterPolicy.mID) +'\n')
         for action in IterPolicy.mAction:
-            if action == "permit" or action == "deny" or action == "count":
+            if action == "permit" or action == "deny" or action == "count" or action == "reject":
                 fp_config.write(beginning + " then " + action + '\n')
             # elif action == "log":
         fp_config.write(beginning + " then log session-init" +'\n')
