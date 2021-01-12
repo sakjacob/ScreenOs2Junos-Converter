@@ -51,6 +51,11 @@ class Address:
         if self.mAddress == add2.mAddress:
             return True      
 
+class AddressSet:
+    def __init__(self):
+        self.mAddresses = []
+        self.mAddressSets = []
+
 class Application:
     def __init__(self):
        self.mID = 0 
@@ -238,20 +243,42 @@ def Convert(edit_Filename, save_directory, tkinter_object):
             if len(splitLine) < 5: # don't know what to do with this line
                 print("\nFailure to convert line: ")
                 print(line)
-            elif (len(splitLine) == 5 or (len(splitLine) == 7 and splitLine[5] == "comment")): # make a new address group
-                addressSets[splitLine[4].replace(" ","-")] = set()
-            elif (len(splitLine) >= 7 and splitLine[5] == "add"): # add to an address set
-                if splitLine[4].replace(" ","-") in addressSets: # group already exists
-                    if splitLine[6].replace(" ","-") in addressSets: # combining two address sets
-                        addressSets[splitLine[4].replace(" ","-")] |= (addressSets[splitLine[6].replace(" ","-")])
-                    else: # add single address
-                        addressSets[splitLine[4].replace(" ","-")].add(splitLine[6].replace(" ","-")) # add single address
-                else: # group was never created, create group and add to it 
-                    addressSets[splitLine[4].replace(" ","-")] = set()
-                    if splitLine[6].replace(" ","-") in addressSets: # combining two address sets
-                        addressSets[splitLine[4].replace(" ","-")].union(addressSets[splitLine[6].replace(" ","-")])
-                    else: # add single address
-                        addressSets[splitLine[4].replace(" ","-")].add(splitLine[6].replace(" ","-")) # add single address
+            # elif (len(splitLine) == 5 or (len(splitLine) == 7 and splitLine[5] == "comment")): # make a new address group
+            #     addressSets[splitLine[4].replace(" ","-")] = AddressSet()
+            # elif (len(splitLine) >= 7 and splitLine[5] == "add"): # add to an address set
+            #     if splitLine[6].replace(" ","-") in addressSet: # add as addressSet
+            #         addressSet[]
+            master = splitLine[4].replace(" ","-") # name of address set being created or modified
+            if master not in addressSets: # new address set
+                addressSets[splitLine[4].replace(" ","-")] = AddressSet() # create new addressSet
+            if (len(splitLine) >= 7 and splitLine[5] == "add"): # adding an address or address set
+                addition = splitLine[6].replace(" ","-") # name of address or address set being added
+                if addition in addressSets: # add as addressSet
+                    addressSets[master].mAddressSets.append(addition)
+                else: # adding a address
+                    addressSets[master].mAddresses.append(addition)
+                
+                """
+                if in addressSet
+                    then address, add to currentAddressSet's address sets
+                else:
+                    is a address, add as an address
+                """
+
+            # elif (len(splitLine) == 5 or (len(splitLine) == 7 and splitLine[5] == "comment")): # make a new address group
+            #     addressSets[splitLine[4].replace(" ","-")] = set()
+            # elif (len(splitLine) >= 7 and splitLine[5] == "add"): # add to an address set
+            #     if splitLine[4].replace(" ","-") in addressSets: # group already exists
+            #         if splitLine[6].replace(" ","-") in addressSets: # combining two address sets
+            #             addressSets[splitLine[4].replace(" ","-")] |= (addressSets[splitLine[6].replace(" ","-")])
+            #         else: # add single address
+            #             addressSets[splitLine[4].replace(" ","-")].add(splitLine[6].replace(" ","-")) # add single address
+            #     else: # group was never created, create group and add to it 
+            #         addressSets[splitLine[4].replace(" ","-")] = set()
+            #         if splitLine[6].replace(" ","-") in addressSets: # combining two address sets
+            #             addressSets[splitLine[4].replace(" ","-")].union(addressSets[splitLine[6].replace(" ","-")])
+            #         else: # add single address
+            #             addressSets[splitLine[4].replace(" ","-")].add(splitLine[6].replace(" ","-")) # add single address
             else:
                 print("\nFailure to convert line: ")
                 print(line)
@@ -336,9 +363,13 @@ def Convert(edit_Filename, save_directory, tkinter_object):
 
     # next write address book lines
     for addygroup in addressSets: # iterate address groups 
-        for addy in addressSets[addygroup]: # write each member of respective group
-            output = "set logical-systems " + lSystem + " security address-book global address-set " + addygroup + " address " + addy + "\n"
-            fp_config.write(output)
+        parent = addressSets[addygroup] # write each member of respective group
+            # write sets then individual addresses
+            # output = "set logical-systems " + lSystem + " security address-book global address-set " + addygroup + " address " + addy + "\n"
+        for s in parent.mAddressSets:
+            fp_config.write("set logical-systems " + lSystem + " security address-book global address-set " + addygroup + " address-set " + s + "\n")
+        for a in parent.mAddresses:
+            fp_config.write("set logical-systems " + lSystem + " security address-book global address-set " + addygroup + " address " + a + "\n")
 
     review_policies = [] # a list of policies that require manual review. Later written to review file
     for ID in policies:
