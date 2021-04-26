@@ -48,7 +48,7 @@ class Application(tk.Frame):
         self.Screen_lbl = Label(self, text="Nothing selected")
         self.Screen_lbl.grid(column=1, row = 0)
 
-        self.dst_disclaimer = Label(self, text="Save to an empty folder to prevent \n overwrittening identical filenames", font=("Arial Bold", 10))
+        self.dst_disclaimer = Label(self, text="Save to an empty folder to prevent \n overwriting identical filenames", font=("Arial Bold", 10))
         self.dst_disclaimer.grid(column = 0, row = 1)
         self.dst = tk.Button(self)
         self.dst["text"] = "Select Directory to save \n new config and other outputs"

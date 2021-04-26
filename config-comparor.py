@@ -76,7 +76,7 @@ class Application(tk.Frame):
         self.t_lbl.grid(column=1, row = 1)
 
         self.dst = tk.Button(self)
-        self.dst["text"] = "Select Directory to save \n new config and other outputs"
+        self.dst["text"] = "Select Directory to save \n comparison files"
         self.dst["command"] = self.Update_dst
         self.dst.grid(column = 0, row = 2)
         self.dst_lbl = Label(self, text="Nothing selected")
@@ -86,7 +86,7 @@ class Application(tk.Frame):
         
 
         self.run = tk.Button(self)
-        self.run["text"] = "Start conversion"
+        self.run["text"] = "Start comparison"
         self.run["command"] = self.Run
         self.run.grid(row=3)
 
